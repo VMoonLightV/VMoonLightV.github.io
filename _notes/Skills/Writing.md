@@ -1,4 +1,6 @@
-## Academic Essay writing
+---
+title: "Academic Essay writing"
+---
 
 1. 【信】第一轮focus logic，把文章捋顺
 2. 【达】第二轮focus在语言

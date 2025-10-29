@@ -1,3 +1,8 @@
+---
+title: "Reduced Density Matrix"
+---
+
+
 #QM #量子信息
 Reduced Density Matrix - 密度约化矩阵。
 学习这个知识点的原因：需要和DFT的同学合作，把我们NN ansatz算出的波函数导出电子密度给他们用。
