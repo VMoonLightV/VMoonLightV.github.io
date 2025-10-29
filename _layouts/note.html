@@ -4,27 +4,43 @@ layout: single
 
 {% assign relative_path = page.path | remove_first: '_notes/' %}
 {% assign path_parts = relative_path | split: '/' %}
-{% assign category_slug = path_parts[0] %}
+{% assign is_root_note = path_parts.size == 1 %}
+{% assign category_slug = nil %}
 {% assign subcategory_slug = nil %}
-{% if path_parts.size > 2 %}
-  {% assign subcategory_slug = path_parts[1] %}
-{% endif %}
-{% assign base_fragment = '_notes/' | append: category_slug | append: '/' %}
-{% if subcategory_slug %}
-  {% assign base_fragment = base_fragment | append: subcategory_slug | append: '/' %}
-{% endif %}
-{% assign candidate_notes = site.notes | where_exp: 'item', 'item.path contains base_fragment' %}
-{% if subcategory_slug %}
-  {% assign notes_in_group = candidate_notes | sort: 'title' %}
-{% else %}
-  {% assign direct_notes = "" | split: "" %}
-  {% for item in candidate_notes %}
-    {% assign trimmed_path = item.path | remove_first: base_fragment %}
-    {% unless trimmed_path contains '/' %}
-      {% assign direct_notes = direct_notes | push: item %}
+{% unless is_root_note %}
+  {% assign category_slug = path_parts[0] %}
+  {% if path_parts.size > 2 %}
+    {% assign subcategory_slug = path_parts[1] %}
+  {% endif %}
+{% endunless %}
+
+{% if is_root_note %}
+  {% assign candidate_notes = "" | split: "" %}
+  {% for item in site.notes %}
+    {% assign item_relative = item.path | remove_first: '_notes/' %}
+    {% unless item_relative contains '/' %}
+      {% assign candidate_notes = candidate_notes | push: item %}
     {% endunless %}
   {% endfor %}
-  {% assign notes_in_group = direct_notes | sort: 'title' %}
+  {% assign notes_in_group = candidate_notes | sort: 'title' %}
+{% else %}
+  {% assign base_fragment = '_notes/' | append: category_slug | append: '/' %}
+  {% if subcategory_slug %}
+    {% assign base_fragment = base_fragment | append: subcategory_slug | append: '/' %}
+  {% endif %}
+  {% assign candidate_notes = site.notes | where_exp: 'item', 'item.path contains base_fragment' %}
+  {% if subcategory_slug %}
+    {% assign notes_in_group = candidate_notes | sort: 'title' %}
+  {% else %}
+    {% assign direct_notes = "" | split: "" %}
+    {% for item in candidate_notes %}
+      {% assign trimmed_path = item.path | remove_first: base_fragment %}
+      {% unless trimmed_path contains '/' %}
+        {% assign direct_notes = direct_notes | push: item %}
+      {% endunless %}
+    {% endfor %}
+    {% assign notes_in_group = direct_notes | sort: 'title' %}
+  {% endif %}
 {% endif %}
 {% assign prev_note = nil %}
 {% assign next_note = nil %}
