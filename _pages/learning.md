@@ -9,7 +9,7 @@ author_profile: true
 {% if notes == empty %}
 <p>No learning notes are available yet. Add Markdown files under <code>_notes/</code> and they will appear here automatically.</p>
 {% else %}
-<p>Expand a topic to browse categories and subfolders. Add Markdown files under <code>_notes/&lt;category&gt;/&lt;subcategory&gt;/</code> and the index updates automatically.</p>
+<p>Learning notes of interest are listed below.</p>
 
 <div class="note-directory">
   {% assign category_groups = notes | group_by_exp: 'note', 'note.path | remove_first: "_notes/" | split: "/" | first' | sort: 'name' %}
