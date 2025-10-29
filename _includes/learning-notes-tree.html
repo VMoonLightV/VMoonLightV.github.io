@@ -1,0 +1,100 @@
+{% assign prefix = include.prefix | default: "" %}
+{% assign level = include.level | default: 0 %}
+{% assign notes = include.notes %}
+
+{% assign files = "" | split: "" %}
+{% assign folder_names = "" | split: "" %}
+
+{% assign prefix_with_slash = prefix | append: '/' %}
+
+{% for note in notes %}
+  {% assign rel = note.path | remove_first: '_notes/' %}
+
+  {% assign in_scope = false %}
+  {% if prefix == "" %}
+    {% assign in_scope = true %}
+  {% elsif rel == prefix %}
+    {% assign in_scope = true %}
+  {% else %}
+    {% assign trimmed = rel | remove_first: prefix_with_slash %}
+    {% if trimmed != rel %}
+      {% assign in_scope = true %}
+    {% endif %}
+  {% endif %}
+
+  {% unless in_scope %}
+    {% continue %}
+  {% endunless %}
+
+  {% assign residual = rel %}
+  {% if prefix != "" %}
+    {% if rel == prefix %}
+      {% assign residual = "" %}
+    {% else %}
+      {% assign residual = rel | remove_first: prefix_with_slash %}
+    {% endif %}
+  {% endif %}
+
+  {% if residual == "" %}
+    {% assign files = files | push: note %}
+    {% continue %}
+  {% endif %}
+
+  {% assign parts = residual | split: '/' %}
+  {% if parts.size == 1 %}
+    {% assign files = files | push: note %}
+  {% else %}
+    {% assign folder_name = parts[0] %}
+    {% assign folder_names = folder_names | push: folder_name %}
+  {% endif %}
+{% endfor %}
+
+{% assign folder_names = folder_names | uniq | sort %}
+{% assign sorted_files = files | sort: 'title' %}
+
+{% if sorted_files.size > 0 %}
+  {% assign list_class = 'note-directory__list' %}
+  {% if level > 0 %}
+    {% assign list_class = list_class | append: ' note-directory__list--nested' %}
+  {% endif %}
+  <ul class="{{ list_class }}">
+    {% for note in sorted_files %}
+      {% assign link_title = note.title | default: note.data.title | default: note.name %}
+      <li><a href="{{ note.url }}">{{ link_title }}</a></li>
+    {% endfor %}
+  </ul>
+{% endif %}
+
+{% for folder_name in folder_names %}
+  {% assign next_prefix = folder_name %}
+  {% if prefix != "" %}
+    {% assign next_prefix = prefix | append: '/' | append: folder_name %}
+  {% endif %}
+
+  {% assign words = folder_name | replace: '-', ' ' | replace: '_', ' ' | split: ' ' %}
+  {% capture folder_label %}
+    {% for word in words %}
+      {% assign clean_word = word | strip %}
+      {% if clean_word != '' %}
+        {% if forloop.first %}
+          {{ clean_word | capitalize }}
+        {% else %}
+          {{ ' ' }}{{ clean_word | capitalize }}
+        {% endif %}
+      {% endif %}
+    {% endfor %}
+  {% endcapture %}
+  {% assign folder_label = folder_label | strip %}
+
+  {% assign next_level = level | plus: 1 %}
+  {% if level == 0 %}
+    {% assign details_class = 'note-directory__category' %}
+  {% else %}
+    {% assign details_class = 'note-directory__subcategory' %}
+  {% endif %}
+
+  <details class="{{ details_class }}"{% if level == 0 %} open{% endif %}>
+    <summary>{{ folder_label }}</summary>
+    {% include learning-notes-tree.html notes=notes prefix=next_prefix level=next_level %}
+  </details>
+{% endfor %}
