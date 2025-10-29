@@ -224,6 +224,9 @@ collections:
   publications:
     output: true
     permalink: /:collection/:path/
+  notes:
+    output: true
+    permalink: /learning/:path/
   portfolio:
     output: true
     permalink: /:collection/:path/
@@ -287,6 +290,13 @@ defaults:
       layout: talk
       author_profile: true
       share: true
+  # _notes
+  - scope:
+      path: ""
+      type: notes
+    values:
+      layout: note
+      author_profile: false
 
 
 # Sass/SCSS

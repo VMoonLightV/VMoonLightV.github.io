@@ -1,6 +1,6 @@
 ---
 permalink: /
-title: "Test of Yuyang Lou's academic website."
+title: "Yuyang Lou's academic website."
 author_profile: true
 redirect_from: 
   - /about/
