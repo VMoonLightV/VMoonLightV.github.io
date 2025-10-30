@@ -17,6 +17,7 @@ url                      : https://VMoonLightV.github.io # The base hostname & p
                                                            # or if you already have some other page hosted on Github then use "https://[your GitHub username].github.io/[Your Repo Name]"
 baseurl                  : "" # the subpath of your site, e.g. "/blog"
 repository               : "VMoonLightV/VMoonLightV.github.io"
+mathjax                  : true
 
 # Site Author - The following control what appear as part of the author content on the side bar.
 #               If a field is blank the icon and link will not appear, otherwise it will be shown.
@@ -207,6 +208,7 @@ incremental: false
 # Markdown Processing
 kramdown:
   input: GFM
+  math_engine: mathjax
   hard_wrap: false
   auto_ids: true
   footnote_nr: 1
@@ -297,6 +299,7 @@ defaults:
     values:
       layout: note
       author_profile: false
+      mathjax: true
 
 
 # Sass/SCSS
