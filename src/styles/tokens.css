@@ -4,7 +4,8 @@
   --color-muted: #555;
   --color-rule: #b8b7b1;
   --font-body-en: "Times New Roman", Times, serif;
-  --font-body-zh: "Noto Sans CJK SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-body-zh:
+    "Noto Sans CJK SC", "PingFang SC", "Microsoft YaHei", sans-serif;
   --font-heading: var(--font-body-en);
   --font-mono: "SFMono-Regular", Consolas, monospace;
   --page-width: 1200px;

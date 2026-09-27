@@ -1,7 +1,7 @@
-import { defineConfig } from 'astro/config';
-import mdx from '@astrojs/mdx';
+import { defineConfig } from "astro/config";
+import mdx from "@astrojs/mdx";
 
 export default defineConfig({
-  site: 'https://vmoonlightv.github.io',
+  site: "https://vmoonlightv.github.io",
   integrations: [mdx()],
 });

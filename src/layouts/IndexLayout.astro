@@ -1,6 +1,16 @@
 ---
-import BaseLayout from './BaseLayout.astro';
-interface Props { title: string; description?: string; lang?: 'en' | 'zh' }
-const { title, description = '', lang = 'en' } = Astro.props;
+import BaseLayout from "./BaseLayout.astro";
+interface Props {
+  title: string;
+  description?: string;
+  lang?: "en" | "zh";
+}
+const { title, description = "", lang = "en" } = Astro.props;
 ---
-<BaseLayout title={title} description={description} lang={lang}><section class="page-intro"><h1>{title}</h1><slot /></section></BaseLayout>
+
+<BaseLayout title={title} description={description} lang={lang}>
+  <section class="page-intro">
+    <h1>{title}</h1>
+    <slot />
+  </section>
+</BaseLayout>

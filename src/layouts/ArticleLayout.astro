@@ -1,6 +1,40 @@
 ---
-import BaseLayout from './BaseLayout.astro';
-interface Props { title: string; date: Date; description?: string; lang?: 'en' | 'zh'; translationHref?: string }
-const { title, date, description = '', lang = 'en', translationHref } = Astro.props;
+import BaseLayout from "./BaseLayout.astro";
+interface Props {
+  title: string;
+  date: Date;
+  description?: string;
+  lang?: "en" | "zh";
+  translationHref?: string;
+}
+const {
+  title,
+  date,
+  description = "",
+  lang = "en",
+  translationHref,
+} = Astro.props;
 ---
-<BaseLayout title={title} description={description} lang={lang}><article class="prose"><header><h1>{title}</h1><p class="article-meta">{date.toLocaleDateString(lang === 'zh' ? 'zh-CN' : 'en-GB', { year: 'numeric', month: 'long', day: 'numeric' })}</p>{translationHref && <p class="article-language"><a href={translationHref}>{lang === 'zh' ? 'Read in English' : '阅读中文版'}</a></p>}</header><slot /></article></BaseLayout>
+
+<BaseLayout title={title} description={description} lang={lang}>
+  <article class="prose">
+    <header>
+      <h1>{title}</h1>
+      <p class="article-meta">
+        {date.toLocaleDateString(lang === "zh" ? "zh-CN" : "en-GB", {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        })}
+      </p>
+      {translationHref && (
+        <p class="article-language">
+          <a href={translationHref}>
+            {lang === "zh" ? "Read in English" : "阅读中文版"}
+          </a>
+        </p>
+      )}
+    </header>
+    <slot />
+  </article>
+</BaseLayout>

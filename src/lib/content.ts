@@ -1,8 +1,12 @@
 export function contentSlug(id: string): string {
-  return id.replace(/\/index$/, '');
+  return id.replace(/\/index$/, "");
 }
 
-export function contentUrl(section: 'notes' | 'looking', id: string, lang: 'en' | 'zh'): string {
+export function contentUrl(
+  section: "notes" | "looking",
+  id: string,
+  lang: "en" | "zh",
+): string {
   const slug = contentSlug(id);
-  return `/${lang === 'zh' ? 'zh/' : ''}${section}/${slug ? `${slug}/` : ''}`;
+  return `/${lang === "zh" ? "zh/" : ""}${section}/${slug ? `${slug}/` : ""}`;
 }

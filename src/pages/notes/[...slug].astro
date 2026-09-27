@@ -1,16 +1,35 @@
 ---
-import { getCollection, render } from 'astro:content';
-import ArticleLayout from '../../layouts/ArticleLayout.astro';
-import { contentSlug, contentUrl } from '../../lib/content';
+import { getCollection, render } from "astro:content";
+import ArticleLayout from "../../layouts/ArticleLayout.astro";
+import { contentSlug, contentUrl } from "../../lib/content";
 export async function getStaticPaths() {
-  const entries = await getCollection('notes', ({ data }) => !data.draft && data.lang === 'en');
-  const translations = await getCollection('zhNotes', ({ data }) => !data.draft);
+  const entries = await getCollection(
+    "notes",
+    ({ data }) => !data.draft && data.lang === "en",
+  );
+  const translations = await getCollection(
+    "zhNotes",
+    ({ data }) => !data.draft,
+  );
   return entries.map((entry) => {
-    const match = entry.data.translation ? translations.find((candidate) => candidate.data.id === entry.data.translation) : undefined;
-    return { params: { slug: contentSlug(entry.id) }, props: { entry, translationHref: match && contentUrl('notes', match.id, 'zh') } };
+    const match = entry.data.translation
+      ? translations.find(
+          (candidate) => candidate.data.id === entry.data.translation,
+        )
+      : undefined;
+    return {
+      params: { slug: contentSlug(entry.id) },
+      props: {
+        entry,
+        translationHref: match && contentUrl("notes", match.id, "zh"),
+      },
+    };
   });
 }
 const { entry, translationHref } = Astro.props;
 const { Content } = await render(entry);
 ---
-<ArticleLayout {...entry.data} translationHref={translationHref}><Content /></ArticleLayout>
+
+<ArticleLayout {...entry.data} translationHref={translationHref}>
+  <Content />
+</ArticleLayout>

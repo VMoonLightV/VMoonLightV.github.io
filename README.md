@@ -14,6 +14,16 @@ npm run build
 npm run preview
 ```
 
+## Formatting
+
+Format all supported project files with:
+
+```bash
+npm run format
+```
+
+Use `npm run format:check` in CI or before committing to verify that the project is already formatted.
+
 ## Adding a new Note
 
 Create a folder and `index.md` (or `index.mdx`) under `src/content/notes/`. The folder hierarchy becomes the URL hierarchy: for example, `src/content/notes/physics/qft/example/index.md` becomes `/notes/physics/qft/example/`.

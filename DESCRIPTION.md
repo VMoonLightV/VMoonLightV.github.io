@@ -1,4 +1,3 @@
-
 This is a fresh Git repository that will replace an old Jekyll website. The old site and local Git history have intentionally been removed. Build the Astro website from scratch in the current directory.
 
 # Personal Website — Milestone 0 Implementation Brief
@@ -613,9 +612,7 @@ It should be a typography component, not a card.
 Example future MDX use:
 
 ```mdx
-<Statement>
-  My own statement text goes here.
-</Statement>
+<Statement>My own statement text goes here.</Statement>
 ```
 
 It may control:
@@ -767,10 +764,7 @@ Initial direction:
 
   --font-body-en: "Times New Roman", Times, serif;
   --font-body-zh:
-    "Noto Sans CJK SC",
-    "PingFang SC",
-    "Microsoft YaHei",
-    sans-serif;
+    "Noto Sans CJK SC", "PingFang SC", "Microsoft YaHei", sans-serif;
 
   --font-heading: var(--font-body-en);
 
@@ -817,7 +811,7 @@ Avoid:
 Respect:
 
 ```css
-@media (prefers-reduced-motion: reduce)
+@media (prefers-reduced-motion: reduce);
 ```
 
 ---
@@ -1055,6 +1049,5 @@ After implementation:
 Do not proceed into detailed homepage visual design, custom art layouts, backlink generation, comments, or publication automation unless required for the framework to function.
 
 The goal of this milestone is a **clean, stable foundation that can be visually designed later without restructuring the content system**.
-
 
 NOTE: Do not make aesthetic or content decisions beyond what is explicitly specified. When multiple technically valid implementations exist, prefer the simplest architecture that preserves future flexibility.

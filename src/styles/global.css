@@ -1,14 +1,60 @@
-body { min-height: 100vh; }
-.site-shell { width: min(100% - 2rem, var(--page-width)); margin: 0 auto; }
-.page-main { min-height: 65vh; padding: var(--space-lg) 0 var(--space-xl); }
-.page-intro { max-width: var(--text-width); }
-.page-intro > p { margin-top: var(--space-md); }
-.prose { max-width: var(--text-width); }
-.prose > * + * { margin-top: var(--space-sm); }
-.prose h2, .prose h3 { margin-top: var(--space-lg); }
-.prose a, .site-header a, .site-footer a { text-decoration-thickness: 1px; text-underline-offset: 0.18em; }
-.prose a:hover, .site-header a:hover, .site-footer a:hover { opacity: 0.58; }
-.article-meta { color: var(--color-muted); font-size: 0.94rem; margin-top: var(--space-sm); }
-.article-language { margin-top: var(--space-md); font-size: 0.94rem; }
-@media (prefers-reduced-motion: no-preference) { a { transition: opacity 140ms ease; } }
-@media (max-width: 640px) { .site-shell { width: min(100% - 1.25rem, var(--page-width)); } .page-main { padding-top: var(--space-md); } }
+body {
+  min-height: 100vh;
+}
+.site-shell {
+  width: min(100% - 2rem, var(--page-width));
+  margin: 0 auto;
+}
+.page-main {
+  min-height: 65vh;
+  padding: var(--space-lg) 0 var(--space-xl);
+}
+.page-intro {
+  max-width: var(--text-width);
+}
+.page-intro > p {
+  margin-top: var(--space-md);
+}
+.prose {
+  max-width: var(--text-width);
+}
+.prose > * + * {
+  margin-top: var(--space-sm);
+}
+.prose h2,
+.prose h3 {
+  margin-top: var(--space-lg);
+}
+.prose a,
+.site-header a,
+.site-footer a {
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+}
+.prose a:hover,
+.site-header a:hover,
+.site-footer a:hover {
+  opacity: 0.58;
+}
+.article-meta {
+  color: var(--color-muted);
+  font-size: 0.94rem;
+  margin-top: var(--space-sm);
+}
+.article-language {
+  margin-top: var(--space-md);
+  font-size: 0.94rem;
+}
+@media (prefers-reduced-motion: no-preference) {
+  a {
+    transition: opacity 140ms ease;
+  }
+}
+@media (max-width: 640px) {
+  .site-shell {
+    width: min(100% - 1.25rem, var(--page-width));
+  }
+  .page-main {
+    padding-top: var(--space-md);
+  }
+}
