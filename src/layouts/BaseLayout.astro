@@ -1,0 +1,12 @@
+---
+import '../styles/reset.css';
+import '../styles/tokens.css';
+import '../styles/typography.css';
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+interface Props { title?: string; description?: string; lang?: 'en' | 'zh' }
+const { title = 'Placeholder', description = '', lang = 'en' } = Astro.props;
+const pageTitle = title === 'Placeholder' ? title : `${title} — Placeholder`;
+---
+<!doctype html><html lang={lang}><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width" /><meta name="description" content={description} /><link rel="icon" type="image/svg+xml" href="/favicon.svg" /><title>{pageTitle}</title></head><body><div class="site-shell"><Header lang={lang} /><main class="page-main"><slot /></main><Footer lang={lang} /></div></body></html>

@@ -1,0 +1,6 @@
+---
+interface Props { lang?: 'en' | 'zh' }
+const { lang = 'en' } = Astro.props;
+---
+<footer class="site-footer"><p>{lang === 'zh' ? '个人网站基础框架。' : 'Personal website framework.'}</p></footer>
+<style>.site-footer { border-top: 1px solid var(--color-rule); color: var(--color-muted); font-size: 0.94rem; padding: var(--space-md) 0; }</style>

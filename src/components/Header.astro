@@ -1,0 +1,23 @@
+---
+interface Props { lang?: 'en' | 'zh' }
+const { lang = 'en' } = Astro.props;
+const isZh = lang === 'zh';
+const items = isZh
+  ? [['关于', '/zh/about/'], ['研究', '/zh/research/'], ['出版与报告', '/zh/publications/'], ['笔记', '/zh/notes/'], ['观看', '/zh/looking/']]
+  : [['About', '/about/'], ['Research', '/research/'], ['Publications & Talks', '/publications/'], ['Notes', '/notes/'], ['Looking', '/looking/']];
+---
+<header class="site-header">
+  <a class="site-mark" href={isZh ? '/zh/' : '/'}>Placeholder</a>
+  <nav aria-label={isZh ? '主要导航' : 'Primary navigation'}>
+    {items.map(([label, href]) => <a href={href}>{label}</a>)}
+    <a class="language-link" href={isZh ? '/' : '/zh/'}>{isZh ? 'EN' : '中文'}</a>
+  </nav>
+</header>
+<style>
+  .site-header { border-bottom: 1px solid var(--color-rule); display: flex; justify-content: space-between; gap: var(--space-md); padding: var(--space-sm) 0; }
+  .site-mark { font-size: 1.1rem; text-decoration: none; white-space: nowrap; }
+  nav { display: flex; flex-wrap: wrap; justify-content: flex-end; column-gap: 1rem; row-gap: 0.15rem; }
+  nav a { text-decoration: none; }
+  .language-link { border-left: 1px solid var(--color-rule); padding-left: 1rem; }
+  @media (max-width: 740px) { .site-header { display: block; } nav { justify-content: flex-start; margin-top: var(--space-sm); } }
+</style>

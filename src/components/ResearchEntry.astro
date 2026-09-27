@@ -1,0 +1,13 @@
+---
+interface Link { label: string; href: string }
+interface Props { image: string; title: string; date: string; description: string; links: Link[] }
+const { image, title, date, description, links } = Astro.props;
+---
+<article class="research-entry"><div class="research-image">{image ? <img src={image} alt="" /> : <span>Image placeholder</span>}</div><div class="research-copy"><h2>{title}</h2><p class="research-date">{date}</p>{description && <p>{description}</p>}{links.length > 0 && <ul>{links.map((link) => <li><a href={link.href}>{link.label} ↗</a></li>)}</ul>}</div></article>
+<style>
+  .research-entry { border-top: 1px solid var(--color-rule); display: grid; gap: var(--space-md); grid-template-columns: minmax(12rem, .8fr) minmax(0, 1.2fr); padding: var(--space-md) 0; }
+  .research-image { align-items: center; aspect-ratio: 4 / 3; border: 1px solid var(--color-rule); display: flex; justify-content: center; color: var(--color-muted); font-size: .9rem; }
+  .research-image img { height: 100%; object-fit: contain; width: 100%; }
+  .research-copy h2 { font-size: clamp(1.5rem, 3vw, 2.25rem); } .research-date { color: var(--color-muted); margin: var(--space-xs) 0 var(--space-sm); } ul { list-style: none; margin-top: var(--space-sm); padding: 0; }
+  @media (max-width: 640px) { .research-entry { display: flex; flex-direction: column; } .research-copy { display: contents; } .research-copy h2 { order: -2; } .research-image { order: -1; } }
+</style>
