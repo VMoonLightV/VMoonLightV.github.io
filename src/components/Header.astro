@@ -1,37 +1,68 @@
 ---
 interface Props {
   lang?: "en" | "zh";
+  languageHref?: string;
+  isArticle?: boolean;
 }
-const { lang = "en" } = Astro.props;
+const { lang = "en", languageHref, isArticle = false } = Astro.props;
 const isZh = lang === "zh";
+const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
+const switchHref =
+  languageHref ??
+  (isArticle
+    ? undefined
+    : isZh
+      ? currentPath.replace(/^\/zh/, "") || "/"
+      : `/zh${currentPath === "/" ? "/" : `${currentPath}/`}`);
 const items = isZh
   ? [
       ["关于", "/zh/about/"],
       ["研究", "/zh/research/"],
       ["出版与报告", "/zh/publications/"],
       ["笔记", "/zh/notes/"],
-      ["观看", "/zh/looking/"],
+      ["Beyond", "/zh/beyond/"],
     ]
   : [
       ["About", "/about/"],
       ["Research", "/research/"],
       ["Publications & Talks", "/publications/"],
       ["Notes", "/notes/"],
-      ["Looking", "/looking/"],
+      ["Beyond", "/beyond/"],
     ];
 ---
 
 <header class="site-header">
-  <a class="site-mark" href={isZh ? "/zh/" : "/"}>
-    Placeholder
+  <a
+    class="site-mark"
+    href={isZh ? "/zh/" : "/"}
+    aria-label={isZh ? "返回封面" : "Back to cover"}
+  >
+    YL.
   </a>
   <nav aria-label={isZh ? "主要导航" : "Primary navigation"}>
     {items.map(([label, href]) => (
-      <a href={href}>{label}</a>
+      <a
+        href={href}
+        aria-current={
+          currentPath === href.slice(0, -1)
+            ? "page"
+            : currentPath.startsWith(href)
+              ? "location"
+              : undefined
+        }
+      >
+        {label}
+      </a>
     ))}
-    <a class="language-link" href={isZh ? "/" : "/zh/"}>
-      {isZh ? "EN" : "中文"}
-    </a>
+    {switchHref && (
+      <a
+        class="language-link"
+        href={switchHref}
+        aria-label={isZh ? "Read in English" : "阅读中文版"}
+      >
+        {isZh ? "EN" : "中文"}
+      </a>
+    )}
   </nav>
 </header>
 <style>
@@ -40,26 +71,38 @@ const items = isZh
     display: flex;
     justify-content: space-between;
     gap: var(--space-md);
-    padding: var(--space-sm) 0;
+    align-items: center;
+    padding: 1.5rem 0;
   }
   .site-mark {
-    font-size: 1.1rem;
+    font-family: var(--font-body-en);
+    font-size: 2rem;
+    line-height: 1;
+    letter-spacing: -0.08em;
     text-decoration: none;
     white-space: nowrap;
   }
   nav {
+    font-family: var(--font-heading);
+    font-size: 1.05rem;
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-end;
-    column-gap: 1rem;
-    row-gap: 0.15rem;
+    column-gap: 1.8rem;
+    row-gap: 0.4rem;
   }
   nav a {
     text-decoration: none;
+    padding: 0.35rem 0;
+    border-bottom: 1px solid transparent;
+  }
+  nav a[aria-current],
+  nav a:hover {
+    border-bottom-color: currentColor;
   }
   .language-link {
     border-left: 1px solid var(--color-rule);
-    padding-left: 1rem;
+    padding-left: 1.5rem;
   }
   @media (max-width: 740px) {
     .site-header {
@@ -68,6 +111,7 @@ const items = isZh
     nav {
       justify-content: flex-start;
       margin-top: var(--space-sm);
+      column-gap: 1.15rem;
     }
   }
 </style>

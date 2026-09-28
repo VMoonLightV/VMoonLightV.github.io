@@ -16,16 +16,25 @@ const {
 } = Astro.props;
 ---
 
-<BaseLayout title={title} description={description} lang={lang}>
+<BaseLayout
+  title={title}
+  description={description}
+  lang={lang}
+  isArticle
+  languageHref={translationHref}
+>
   <article class="prose">
     <header>
+      <p class="eyebrow">{lang === "zh" ? "文稿" : "From the archive"}</p>
       <h1>{title}</h1>
       <p class="article-meta">
-        {date.toLocaleDateString(lang === "zh" ? "zh-CN" : "en-GB", {
-          year: "numeric",
-          month: "long",
-          day: "numeric",
-        })}
+        <time datetime={date.toISOString().slice(0, 10)}>
+          {date.toLocaleDateString(lang === "zh" ? "zh-CN" : "en-GB", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          })}
+        </time>
       </p>
       {translationHref && (
         <p class="article-language">

@@ -1,0 +1,248 @@
+---
+import Statement from "./Statement.astro";
+interface TextItem {
+  text: string;
+  lang?: string;
+}
+interface Profile {
+  label: string;
+  href?: string;
+}
+interface Props {
+  content: {
+    name: {
+      first: string;
+      last: string;
+    };
+    image: {
+      src: string;
+      alt: string;
+      caption: string;
+    };
+    statement: {
+      label: string;
+      lines: string[];
+      lang?: string;
+    };
+    personalInformation: TextItem[];
+    contact: {
+      label: string;
+      email: string;
+      profiles: Profile[];
+    };
+    introduction: {
+      eyebrow: string;
+      title: string;
+      templateLabel: string;
+      paragraphs: string[];
+      aboutLabel: string;
+      aboutHref: string;
+    };
+  };
+}
+const { content } = Astro.props;
+---
+
+<section class="cover" aria-labelledby="cover-title">
+  <h1 id="cover-title">
+    {content.name.first} <em>{content.name.last}</em>
+  </h1>
+  <div class="cover-grid">
+    <figure class="cover-image">
+      <img
+        src={content.image.src}
+        alt={content.image.alt}
+        width="876"
+        height="876"
+        fetchpriority="high"
+      />
+      <figcaption>
+        <span>01 /</span> {content.image.caption}
+      </figcaption>
+    </figure>
+    <div class="cover-copy">
+      <p class="eyebrow">{content.statement.label}</p>
+      <div class="cover-statement" lang={content.statement.lang}>
+        <Statement>
+          {content.statement.lines.map((line, index) => (
+            <>
+              {index > 0 && <br class="desktop-break" />}
+              {line}
+            </>
+          ))}
+        </Statement>
+      </div>
+      <ul class="personal-information">
+        {content.personalInformation.map((item) => (
+          <li lang={item.lang}>{item.text}</li>
+        ))}
+      </ul>
+      <div class="contact-block">
+        <p class="eyebrow">{content.contact.label}</p>
+        <a class="email" href={`mailto:${content.contact.email}`}>
+          {content.contact.email} <span aria-hidden="true">↗</span>
+        </a>
+        <ul class="profile-links">
+          {content.contact.profiles.map((profile) => (
+            <li class:list={{ "cv-placeholder": !profile.href }}>
+              {profile.href ? (
+                <a href={profile.href}>
+                  {profile.label} <span aria-hidden="true">↗</span>
+                </a>
+              ) : (
+                profile.label
+              )}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </div>
+  <section class="cover-introduction" aria-labelledby="introduction-title">
+    <div>
+      <p class="eyebrow">02 / {content.introduction.eyebrow}</p>
+      <h2 id="introduction-title">{content.introduction.title}</h2>
+    </div>
+    <div>
+      <p class="template-label">{content.introduction.templateLabel}</p>
+      {content.introduction.paragraphs.map((paragraph, index) => (
+        <p class={index === 0 ? "intro-text" : "template-copy"}>{paragraph}</p>
+      ))}
+      <a class="about-link" href={content.introduction.aboutHref}>
+        {content.introduction.aboutLabel} <span aria-hidden="true">↗</span>
+      </a>
+    </div>
+  </section>
+</section>
+<style>
+  h1 {
+    font-size: clamp(5rem, 12.6vw, 10.5rem);
+    line-height: 1.04;
+    letter-spacing: -0.065em;
+    margin: 0 0 2rem;
+    font-family: var(--font-body-en);
+  }
+  h1 em {
+    font-weight: normal;
+  }
+  .cover-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.4fr);
+    gap: clamp(2rem, 7vw, 7rem);
+    border-top: 1px solid var(--color-text);
+    padding-top: 2.5rem;
+  }
+  .cover-image {
+    max-width: 360px;
+  }
+  .cover-image img {
+    width: 100%;
+    height: auto;
+  }
+  figcaption {
+    display: flex;
+    gap: 1rem;
+    margin-top: 0.8rem;
+    color: var(--color-muted);
+    font-family: var(--font-ui);
+    font-size: 0.68rem;
+  }
+  .cover-copy {
+    padding-top: 0.2rem;
+  }
+  .cover-statement {
+    font-family: var(--font-body-en);
+  }
+  .cover-statement :global(.statement) {
+    font-size: clamp(2.25rem, 4.2vw, 3.7rem);
+    letter-spacing: -0.035em;
+    line-height: 1.1;
+    margin: 1.2rem 0 1.5rem;
+  }
+  .personal-information {
+    list-style: none;
+    padding: 0;
+    font-size: 1.15rem;
+  }
+  .contact-block {
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--color-rule);
+  }
+  .email {
+    display: inline-block;
+    margin-top: 0.7rem;
+    font-size: 1.15rem;
+    text-decoration: none;
+  }
+  .email span {
+    margin-left: 0.5rem;
+    font-size: 0.9rem;
+  }
+  .profile-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem 1.3rem;
+    margin-top: 1rem;
+    padding: 0;
+    list-style: none;
+    font: 0.75rem/1.5 var(--font-ui);
+  }
+  .profile-links li {
+    margin: 0;
+  }
+  .profile-links a {
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.3em;
+  }
+  .cv-placeholder {
+    color: var(--color-muted);
+  }
+  .cover-introduction {
+    margin-top: 4rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--color-text);
+    display: grid;
+    grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.4fr);
+    gap: clamp(2rem, 7vw, 7rem);
+  }
+  .cover-introduction h2 {
+    margin-top: 1rem;
+    font-size: 1.75rem;
+  }
+  .intro-text {
+    margin-top: 1rem;
+    font-size: 1.35rem;
+    line-height: 1.5;
+  }
+  .about-link {
+    display: inline-block;
+    margin-top: 1.5rem;
+    font: 0.78rem var(--font-ui);
+    text-underline-offset: 0.3em;
+  }
+  @media (max-width: 740px) {
+    h1 {
+      font-size: clamp(3.9rem, 14vw, 6.5rem);
+      margin: 0 0 1.5rem;
+    }
+    .cover-grid,
+    .cover-introduction {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+    .cover-image {
+      max-width: 280px;
+      width: 80%;
+    }
+    .cover-statement :global(.statement) {
+      font-size: clamp(2.3rem, 8vw, 3.5rem);
+    }
+    .cover-introduction {
+      margin-top: 3rem;
+    }
+    .desktop-break {
+      display: none;
+    }
+  }
+</style>

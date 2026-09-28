@@ -1,16 +1,13 @@
 ---
 import { getCollection, render } from "astro:content";
-import ArticleLayout from "../../layouts/ArticleLayout.astro";
-import { contentSlug, contentUrl } from "../../lib/content";
+import ArticleLayout from "../../../layouts/ArticleLayout.astro";
+import { contentSlug, contentUrl } from "../../../lib/content";
 export async function getStaticPaths() {
   const entries = await getCollection(
-    "looking",
-    ({ data }) => !data.draft && data.lang === "en",
+    "zhBeyond",
+    ({ data }) => !data.draft && data.lang === "zh",
   );
-  const translations = await getCollection(
-    "zhLooking",
-    ({ data }) => !data.draft,
-  );
+  const translations = await getCollection("beyond", ({ data }) => !data.draft);
   return entries.map((entry) => {
     const match = entry.data.translation
       ? translations.find(
@@ -21,7 +18,7 @@ export async function getStaticPaths() {
       params: { slug: contentSlug(entry.id) },
       props: {
         entry,
-        translationHref: match && contentUrl("looking", match.id, "zh"),
+        translationHref: match && contentUrl("beyond", match.id, "en"),
       },
     };
   });
@@ -30,6 +27,6 @@ const { entry, translationHref } = Astro.props;
 const { Content } = await render(entry);
 ---
 
-<ArticleLayout {...entry.data} translationHref={translationHref}>
+<ArticleLayout {...entry.data} translationHref={translationHref} lang="zh">
   <Content />
 </ArticleLayout>

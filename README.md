@@ -24,15 +24,23 @@ npm run format
 
 Use `npm run format:check` in CI or before committing to verify that the project is already formatted.
 
+## Editing the cover and templates
+
+The English homepage content lives in `src/pages/index.astro`, and the Chinese homepage content lives in `src/pages/zh/index.astro`. Both pages pass their text, personal information, and links to the shared layout in `src/components/HomeCover.astro`. The component controls presentation only, so changing the page content still changes the layout through its natural text height. The avatar is displayed in full from `public/images/avatar.png`.
+
+Bracketed text and “Writing template” labels are reference prompts, not biographical claims or actual publications. Replace them with authored text before publishing. The CV is plain text until a real file is supplied; add the file under `public/files/` and replace that text with a link. About and Publications templates live in their respective page files; article templates remain in `src/content/`.
+
+Shared typography, spacing, and colors are in `src/styles/`. The site uses system fonts, plain CSS, and no client-side UI framework. Article language links appear only when a translation is available.
+
 ## Adding a new Note
 
 Create a folder and `index.md` (or `index.mdx`) under `src/content/notes/`. The folder hierarchy becomes the URL hierarchy: for example, `src/content/notes/physics/qft/example/index.md` becomes `/notes/physics/qft/example/`.
 
 Use the article frontmatter fields `id`, `title`, `date`, and `lang`; `description`, `translation`, and `draft` are optional. Each `id` should remain stable, even if the content location changes later.
 
-## Adding a new Looking article
+## Adding a new Beyond article
 
-Create the same folder-and-`index.md` (or `.mdx`) structure under `src/content/looking/`. It is automatically listed and routed under `/looking/`.
+Create the same folder-and-`index.md` (or `.mdx`) structure under `src/content/beyond/`. It is automatically listed and routed under `/beyond/`.
 
 ## Adding a Research item
 
@@ -40,7 +48,7 @@ Create a Markdown or MDX file under `src/content/research/` with frontmatter for
 
 ## Chinese content
 
-Chinese notes and Looking articles live under `src/content/zh/notes/` and `src/content/zh/looking/`; they are routed below `/zh/`. Chinese top-level pages are separate Astro files under `src/pages/zh/`, so the two language trees can grow independently.
+Chinese notes and Beyond articles live under `src/content/zh/notes/` and `src/content/zh/beyond/`; they are routed below `/zh/`. Chinese top-level pages are separate Astro files under `src/pages/zh/`, so the two language trees can grow independently.
 
 ## Deployment
 

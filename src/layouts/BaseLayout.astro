@@ -9,9 +9,17 @@ interface Props {
   title?: string;
   description?: string;
   lang?: "en" | "zh";
+  languageHref?: string;
+  isArticle?: boolean;
 }
-const { title = "Placeholder", description = "", lang = "en" } = Astro.props;
-const pageTitle = title === "Placeholder" ? title : `${title} — Placeholder`;
+const {
+  title = "Yuyang Lou",
+  description = "",
+  lang = "en",
+  languageHref,
+  isArticle = false,
+} = Astro.props;
+const pageTitle = title === "Yuyang Lou" ? title : `${title} — Yuyang Lou`;
 ---
 
 <!doctype html>
@@ -24,9 +32,12 @@ const pageTitle = title === "Placeholder" ? title : `${title} — Placeholder`;
     <title>{pageTitle}</title>
   </head>
   <body>
+    <a class="skip-link" href="#main-content">
+      {lang === "zh" ? "跳至正文" : "Skip to content"}
+    </a>
     <div class="site-shell">
-      <Header lang={lang} />
-      <main class="page-main">
+      <Header lang={lang} languageHref={languageHref} isArticle={isArticle} />
+      <main class="page-main" id="main-content" tabindex="-1">
         <slot />
       </main>
       <Footer lang={lang} />

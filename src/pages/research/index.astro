@@ -10,8 +10,20 @@ const entries = (
 ).sort((a, b) => b.data.date.localeCompare(a.data.date));
 ---
 
-<IndexLayout title="Research">
-  {entries.map((entry) => (
-    <ResearchEntry {...entry.data} />
-  ))}
+<IndexLayout title="Research" showHeading={true}>
+  <p class="template-copy">
+    [Introduce the questions connecting your research in two or three sentences.
+    The entry below is a template for a project, not a record of completed
+    work.]
+  </p>
+  <div class="research-list">
+    {entries.map((entry) => (
+      <ResearchEntry {...entry.data} />
+    ))}
+  </div>
 </IndexLayout>
+<style>
+  .research-list {
+    margin-top: 3rem;
+  }
+</style>

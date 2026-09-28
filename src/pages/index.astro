@@ -1,38 +1,50 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import HomeCover from "../components/HomeCover.astro";
+
+const coverContent = {
+  name: { first: "Yuyang", last: "Lou" },
+  image: {
+    src: "/images/avatar.png",
+    alt: "Illustrated avatar used by Yuyang Lou",
+    caption: "Personal image",
+  },
+  statement: {
+    label: "A short statement",
+    lines: ["Exploiting the nature and humanity."],
+    lang: "en",
+  },
+  personalInformation: [
+    { text: "Student in particle physics and AI/ML.", lang: "en" },
+    { text: "University of Science and Technology of China" },
+  ],
+  contact: {
+    label: "Correspondence & profiles",
+    email: "yuyanglune@gmail.com",
+    profiles: [
+      {
+        label: "Google Scholar",
+        href: "https://scholar.google.com/citations?user=xF7bl-AAAAAJ",
+      },
+      { label: "ORCID", href: "https://orcid.org/0009-0005-8892-9299" },
+      { label: "GitHub", href: "https://github.com/VMoonLightV" },
+      { label: "CV — forthcoming" },
+    ],
+  },
+  introduction: {
+    eyebrow: "In my own words",
+    title: "An introduction",
+    templateLabel: "Writing template · to be replaced",
+    paragraphs: [
+      "[Introduce the questions you are thinking about and why they matter to you. Begin with a particular observation, an experience, or a question that remains open.]",
+      "[Continue with what you hope to record here. Keep the voice personal; let this paragraph be a starting point for getting to know you.]",
+    ],
+    aboutLabel: "More about me",
+    aboutHref: "/about/",
+  },
+};
 ---
 
-<BaseLayout title="Placeholder">
-  <section class="cover">
-    <h1>Placeholder name</h1>
-    <div class="cover-content">
-      <p>Image placeholder</p>
-      <ul>
-        <li>Personal information placeholder</li>
-        <li>Contact placeholder</li>
-        <li>ORCID placeholder</li>
-        <li>GitHub placeholder</li>
-        <li>CV placeholder</li>
-      </ul>
-      <p>Short statement placeholder.</p>
-    </div>
-  </section>
+<BaseLayout title="Yuyang Lou">
+  <HomeCover content={coverContent} />
 </BaseLayout>
-<style>
-  .cover {
-    min-height: 55vh;
-    display: grid;
-    align-content: space-between;
-    gap: var(--space-xl);
-  }
-  .cover-content {
-    border-top: 1px solid var(--color-rule);
-    max-width: var(--text-width);
-    padding-top: var(--space-sm);
-  }
-  ul {
-    list-style: none;
-    margin: var(--space-md) 0;
-    padding: 0;
-  }
-</style>

@@ -76,7 +76,7 @@ Current broad visual direction:
 - hard edges rather than rounded containers
 - horizontal rules, typography and spacing should provide structure
 
-More experimental / postmodern layouts will be added later.
+IMPORTANT: You should understand this is experimental / postmodern aesthetic style, and more layouts will be added later.
 
 Do not over-design Milestone 0.
 
@@ -92,7 +92,7 @@ About
 Research
 Publications & Talks
 Notes
-Looking
+Beyond
 ```
 
 English is the default language.
@@ -110,13 +110,13 @@ Examples:
 /research/
 /publications/
 /notes/
-/looking/
+/beyond/
 
 /zh/about/
 /zh/research/
 /zh/publications/
 /zh/notes/
-/zh/looking/
+/zh/beyond/
 ```
 
 Not every English page must have a Chinese translation.
@@ -212,7 +212,7 @@ project-root/
 │   │   │   ├── index.astro
 │   │   │   └── [...slug].astro
 │   │
-│   │   ├── looking/
+│   │   ├── beyond/
 │   │   │   ├── index.astro
 │   │   │   └── [...slug].astro
 │   │
@@ -227,7 +227,7 @@ project-root/
 │   │       ├── notes/
 │   │       │   ├── index.astro
 │   │       │   └── [...slug].astro
-│   │       └── looking/
+│   │       └── beyond/
 │   │           ├── index.astro
 │   │           └── [...slug].astro
 │   │
@@ -240,14 +240,14 @@ project-root/
 │   │   │   ├── machine-learning/
 │   │   │   └── ...
 │   │
-│   │   ├── looking/
+│   │   ├── beyond/
 │   │   │   ├── essays/
 │   │   │   ├── art/
 │   │   │   └── ...
 │   │
 │   │   └── zh/
 │   │       ├── notes/
-│   │       └── looking/
+│   │       └── beyond/
 │   │
 │   ├── layouts/
 │   │   ├── BaseLayout.astro
@@ -424,14 +424,14 @@ This is future work, not required for Milestone 0.
 
 ---
 
-# 11. Looking
+# 11. Beyond
 
-`Looking` is the personal writing / art-writing area.
+`Beyond` is the personal writing / art-writing area.
 
 It may eventually contain:
 
 ```text
-Looking
+Beyond
 ├── essays
 └── art
 ```
@@ -579,7 +579,7 @@ Responsible for:
 For section landing pages such as:
 
 - Notes
-- Looking
+- Beyond
 - possibly Research
 
 ## ArticleLayout
@@ -591,7 +591,7 @@ Do not create many specialized layouts yet.
 Future layouts may include:
 
 ```text
-LookingLayout
+BeyondLayout
 ExperimentalLayout
 ```
 
@@ -672,7 +672,7 @@ About
 Research
 Publications & Talks
 Notes
-Looking
+Beyond
 ```
 
 Do not use:
@@ -910,7 +910,7 @@ npm run preview
 
 Explain where to create the folder and `index.md`.
 
-## Adding a new Looking article
+## Adding a new Beyond article
 
 Explain the equivalent workflow.
 
@@ -940,7 +940,7 @@ For example:
 one English Note
 one nested English Note/topic
 one Chinese Note
-one Looking entry
+one Beyond entry
 one Research placeholder
 ```
 
@@ -971,7 +971,7 @@ These pages load:
 /research/
 /publications/
 /notes/
-/looking/
+/beyond/
 ```
 
 Chinese top-level routes load:
@@ -982,7 +982,7 @@ Chinese top-level routes load:
 /zh/research/
 /zh/publications/
 /zh/notes/
-/zh/looking/
+/zh/beyond/
 ```
 
 Nested Markdown Notes can generate URLs such as:
@@ -993,7 +993,7 @@ Nested Markdown Notes can generate URLs such as:
 /notes/physics/qft/example/
 ```
 
-Looking Markdown/MDX entries generate pages automatically.
+Beyond Markdown/MDX entries generate pages automatically.
 
 Research items are read from structured content and rendered through `ResearchEntry`.
 

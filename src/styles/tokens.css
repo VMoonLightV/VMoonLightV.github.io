@@ -1,5 +1,5 @@
 :root {
-  --color-background: #f7f6f2;
+  --color-background: #f2f6f7;
   --color-text: #000;
   --color-muted: #555;
   --color-rule: #b8b7b1;
@@ -8,6 +8,7 @@
     "Noto Sans CJK SC", "PingFang SC", "Microsoft YaHei", sans-serif;
   --font-heading: var(--font-body-en);
   --font-mono: "SFMono-Regular", Consolas, monospace;
+  --font-ui: Arial, Helvetica, sans-serif;
   --page-width: 1200px;
   --text-width: 720px;
   --space-xs: 0.5rem;

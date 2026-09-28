@@ -28,17 +28,17 @@ export const collections = {
     loader: glob({ base: "./src/content/notes", pattern: "**/*.{md,mdx}" }),
     schema: articleSchema,
   }),
-  looking: defineCollection({
-    loader: glob({ base: "./src/content/looking", pattern: "**/*.{md,mdx}" }),
+  beyond: defineCollection({
+    loader: glob({ base: "./src/content/beyond", pattern: "**/*.{md,mdx}" }),
     schema: articleSchema,
   }),
   zhNotes: defineCollection({
     loader: glob({ base: "./src/content/zh/notes", pattern: "**/*.{md,mdx}" }),
     schema: articleSchema,
   }),
-  zhLooking: defineCollection({
+  zhBeyond: defineCollection({
     loader: glob({
-      base: "./src/content/zh/looking",
+      base: "./src/content/zh/beyond",
       pattern: "**/*.{md,mdx}",
     }),
     schema: articleSchema,

@@ -1,38 +1,50 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import HomeCover from "../../components/HomeCover.astro";
+
+const coverContent = {
+  name: { first: "Yuyang", last: "Lou" },
+  image: {
+    src: "/images/avatar.png",
+    alt: "Yuyang Lou 使用的插画头像",
+    caption: "个人图像",
+  },
+  statement: {
+    label: "一句陈述",
+    lines: ["Exploiting the nature", " and humanity."],
+    lang: "en",
+  },
+  personalInformation: [
+    { text: "Student in particle physics and AI/ML.", lang: "en" },
+    { text: "中国科学技术大学" },
+  ],
+  contact: {
+    label: "联系与资料",
+    email: "yuyanglune@gmail.com",
+    profiles: [
+      {
+        label: "Google Scholar",
+        href: "https://scholar.google.com/citations?user=xF7bl-AAAAAJ",
+      },
+      { label: "ORCID", href: "https://orcid.org/0009-0005-8892-9299" },
+      { label: "GitHub", href: "https://github.com/VMoonLightV" },
+      { label: "简历 — 待添加" },
+    ],
+  },
+  introduction: {
+    eyebrow: "自述",
+    title: "一段介绍",
+    templateLabel: "写作模板 · 待替换",
+    paragraphs: [
+      "［用自己的语言介绍你正在思考的问题，以及你为何在意它们。可以从一个具体的观察、一段经历，或一个仍未回答的问题开始。］",
+      "［接着写下你希望在这里记录什么。保持个人的语气，让这段文字成为认识你的起点。］",
+    ],
+    aboutLabel: "更多关于我",
+    aboutHref: "/zh/about/",
+  },
+};
 ---
 
-<BaseLayout title="占位符" lang="zh">
-  <section class="cover">
-    <h1>姓名占位符</h1>
-    <div class="cover-content">
-      <p>图像占位符</p>
-      <ul>
-        <li>个人信息占位符</li>
-        <li>联系方式占位符</li>
-        <li>ORCID 占位符</li>
-        <li>GitHub 占位符</li>
-        <li>简历占位符</li>
-      </ul>
-      <p>简短陈述占位符。</p>
-    </div>
-  </section>
+<BaseLayout title="Yuyang Lou" lang="zh">
+  <HomeCover content={coverContent} />
 </BaseLayout>
-<style>
-  .cover {
-    min-height: 55vh;
-    display: grid;
-    align-content: space-between;
-    gap: var(--space-xl);
-  }
-  .cover-content {
-    border-top: 1px solid var(--color-rule);
-    max-width: var(--text-width);
-    padding-top: var(--space-sm);
-  }
-  ul {
-    list-style: none;
-    margin: var(--space-md) 0;
-    padding: 0;
-  }
-</style>

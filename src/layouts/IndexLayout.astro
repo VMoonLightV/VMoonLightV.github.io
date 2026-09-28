@@ -4,13 +4,38 @@ interface Props {
   title: string;
   description?: string;
   lang?: "en" | "zh";
+  showHeading?: boolean;
 }
-const { title, description = "", lang = "en" } = Astro.props;
+const {
+  title,
+  description = "",
+  lang = "en",
+  showHeading = true,
+} = Astro.props;
 ---
 
 <BaseLayout title={title} description={description} lang={lang}>
   <section class="page-intro">
-    <h1>{title}</h1>
+    {showHeading ? (
+      <header class="section-heading">
+        <h1>{title}</h1>
+      </header>
+    ) : (
+      <h1 class="visually-hidden">{title}</h1>
+    )}
     <slot />
   </section>
 </BaseLayout>
+<style>
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+  }
+</style>

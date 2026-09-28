@@ -5,13 +5,16 @@ body {
   font-size: 1.125rem;
   line-height: 1.55;
 }
-:lang(zh) body,
-body:has([lang="zh"]) {
+html:lang(zh) {
+  --font-heading: var(--font-body-zh);
+}
+html:lang(zh) body {
   font-family: var(--font-body-zh);
 }
 h1,
 h2,
 h3 {
+  overflow-wrap: anywhere;
   font-family: var(--font-heading);
   font-weight: normal;
   line-height: 1.1;
@@ -35,4 +38,9 @@ main li + li {
 code {
   font-family: var(--font-mono);
   font-size: 0.85em;
+}
+p,
+li,
+a {
+  overflow-wrap: anywhere;
 }

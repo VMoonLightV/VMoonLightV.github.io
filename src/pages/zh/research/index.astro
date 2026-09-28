@@ -10,10 +10,18 @@ const entries = (
 ).sort((a, b) => b.data.date.localeCompare(a.data.date));
 ---
 
-<IndexLayout title="研究" lang="zh">
+<IndexLayout title="研究" lang="zh" showHeading={false}>
   {entries.length > 0 ? (
     entries.map((entry) => <ResearchEntry {...entry.data} />)
   ) : (
-    <p>占位符内容。</p>
+    <section class="template-section">
+      <p class="eyebrow">研究介绍 / 待填写</p>
+      <div>
+        <h2>［研究项目名称］</h2>
+        <p class="template-copy">
+          ［用两三句话介绍研究问题、采用的方法和你在其中的贡献。配上一张完整的项目图片，并在适当时补充论文、代码或报告链接。此处仅为写作模板。］
+        </p>
+      </div>
+    </section>
   )}
 </IndexLayout>

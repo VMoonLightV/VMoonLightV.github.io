@@ -5,17 +5,19 @@ import Contents from "../../../components/Contents.astro";
 import { contentUrl } from "../../../lib/content";
 const entries = (
   await getCollection(
-    "zhLooking",
+    "zhBeyond",
     ({ data }) => !data.draft && data.lang === "zh",
   )
 ).sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 const items = entries.map((entry) => ({
-  href: contentUrl("looking", entry.id, "zh"),
+  href: contentUrl("beyond", entry.id, "zh"),
   label: entry.data.title,
 }));
 ---
 
-<IndexLayout title="观看" lang="zh">
-  <p>占位符索引。</p>
+<IndexLayout title="Beyond" lang="zh">
+  <p class="template-copy">
+    ［写作模板：用自己的语言介绍这片写作空间。可以从一次观看、一段阅读或一个日常片刻开始，说明你希望在这里留下什么。］
+  </p>
   <Contents items={items} title="目录" />
 </IndexLayout>

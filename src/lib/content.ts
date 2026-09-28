@@ -3,7 +3,7 @@ export function contentSlug(id: string): string {
 }
 
 export function contentUrl(
-  section: "notes" | "looking",
+  section: "notes" | "beyond",
   id: string,
   lang: "en" | "zh",
 ): string {
