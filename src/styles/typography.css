@@ -3,7 +3,7 @@ body {
   color: var(--color-text);
   font-family: var(--font-body-en);
   font-size: 1.125rem;
-  line-height: 1.55;
+  line-height: 1.75;
 }
 html:lang(zh) {
   --font-heading: var(--font-body-zh);
@@ -17,7 +17,8 @@ h3 {
   overflow-wrap: anywhere;
   font-family: var(--font-heading);
   font-weight: normal;
-  line-height: 1.1;
+  line-height: 1.2;
+  color: var(--color-accent);
 }
 h1 {
   font-size: clamp(2.4rem, 7vw, 5.25rem);

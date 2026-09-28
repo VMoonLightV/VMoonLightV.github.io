@@ -22,9 +22,28 @@ const { lang = "en" } = Astro.props;
     flex-wrap: wrap;
     justify-content: space-between;
     gap: 1rem;
-    padding: var(--space-md) 0;
+    padding: 2rem 0 2.5rem;
   }
   a {
     text-decoration: none;
+    color: var(--color-accent);
+  }
+  a:first-child {
+    font: 1.15rem var(--font-body-en);
+  }
+  @media (max-width: 480px) {
+    .site-footer {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+    }
+    .site-footer p {
+      grid-column: 1;
+      grid-row: 2;
+    }
+    .site-footer a:last-child {
+      grid-column: 2;
+      grid-row: 1 / 3;
+    }
   }
 </style>

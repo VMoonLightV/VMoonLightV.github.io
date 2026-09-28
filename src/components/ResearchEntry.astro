@@ -51,7 +51,7 @@ const { image, title, date, description, links } = Astro.props;
     --copy-gap: clamp(1rem, 2vw, 2rem);
     --title-inset: 1.25rem;
     --diagonal-width: clamp(14px, 1.5vw, 22px);
-    --diagonal-color: #fffef9;
+    --diagonal-color: var(--color-paper);
     border: 1px solid var(--color-rule);
     display: grid;
     grid-template-columns: minmax(0, 0.38fr) minmax(0, 0.62fr);
@@ -66,7 +66,7 @@ const { image, title, date, description, links } = Astro.props;
     overflow: hidden;
     /* The right edge retreats to the left from top to bottom: / . */
     clip-path: polygon(0 0, 100% 0, 80% 100%, 0 100%);
-    background: #eae9e3;
+    background: var(--color-surface);
     align-items: center;
     display: flex;
     justify-content: center;
@@ -106,12 +106,15 @@ const { image, title, date, description, links } = Astro.props;
   }
   .research-description {
     margin-top: 1.5rem;
+    font-size: 1rem;
+    line-height: 1.85;
+    color: var(--color-muted);
   }
   .research-copy h2 {
-    font-size: clamp(1.5rem, 3vw, 2.25rem);
+    font-size: clamp(1.4rem, 2.7vw, 2rem);
   }
   .research-date {
-    font: 0.8rem/1.4 var(--font-mono);
+    font: 0.75rem/1.4 var(--font-ui);
     color: var(--color-muted);
     margin: 0;
     padding-top: 0.2rem;

@@ -34,14 +34,15 @@ const { items, title = "Contents" } = Astro.props;
 )}
 <style>
   .contents {
-    border-top: 1px solid var(--color-rule);
+    border-top: 1px solid var(--color-accent);
     margin-top: var(--space-lg);
-    padding-top: var(--space-sm);
+    padding-top: 1.5rem;
   }
   h2 {
     font-family: var(--font-ui);
     font-size: 0.7rem;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
     margin-bottom: var(--space-md);
   }
   ul {
@@ -57,14 +58,19 @@ const { items, title = "Contents" } = Astro.props;
     grid-template-columns: 3rem minmax(0, 1fr) 1.5rem;
     gap: 1rem;
     align-items: baseline;
-    padding: 1.3rem 0;
-    font-size: clamp(1.25rem, 2.7vw, 1.8rem);
+    padding: 1.65rem 0;
+    font-size: clamp(1.2rem, 2.5vw, 1.65rem);
     text-decoration: none;
+    color: var(--color-accent);
   }
   .entry-number,
   .entry-arrow {
     font: 0.7rem var(--font-ui);
     color: var(--color-muted);
+  }
+  .entry-arrow {
+    font-size: 1.15rem;
+    color: var(--color-accent);
   }
   a:hover > span:nth-child(2) {
     text-decoration: underline;

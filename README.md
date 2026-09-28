@@ -32,6 +32,8 @@ Bracketed text and “Writing template” labels are reference prompts, not biog
 
 Shared typography, spacing, and colors are in `src/styles/`. The site uses system fonts, plain CSS, and no client-side UI framework. Article language links appear only when a translation is available.
 
+The visual direction references [Yale's website](https://www.yale.edu/): deep blue headings, a warm paper background, fine rules, and generous spacing. Fonts remain local system fonts (Georgia for English), with no dependency on Yale's assets or fonts. The cover uses an asymmetric portrait composition and a blue correspondence band; its content still lives in the page files. Research retains its diagonal image treatment on desktop and stacks image above text on mobile. Shared colors are defined in `tokens.css`.
+
 ## Adding a new Note
 
 Create a folder and `index.md` (or `index.mdx`) under `src/content/notes/`. The folder hierarchy becomes the URL hierarchy: for example, `src/content/notes/physics/qft/example/index.md` becomes `/notes/physics/qft/example/`.

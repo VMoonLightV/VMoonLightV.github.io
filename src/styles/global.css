@@ -3,7 +3,7 @@ body {
 }
 
 .site-shell {
-  width: min(100% - 6rem, var(--page-width));
+  width: min(100% - 8rem, var(--page-width));
   margin: 0 auto;
   min-height: 100vh;
   display: flex;
@@ -12,14 +12,14 @@ body {
 
 .page-main {
   flex: 1;
-  padding: 3rem 0 6rem;
+  padding: 3.5rem 0 6rem;
 }
 
 .eyebrow {
   font-family: var(--font-ui);
   font-size: 0.68rem;
   line-height: 1.5;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--color-muted);
 }
@@ -29,20 +29,31 @@ body {
 }
 
 .section-heading {
-  padding-bottom: 2.75rem;
-  margin-bottom: 2.75rem;
-  border-bottom: 1px solid var(--color-text);
+  padding-bottom: 2rem;
+  margin-bottom: 2.5rem;
+  border-bottom: 1px solid var(--color-rule);
+  position: relative;
+}
+
+.section-heading::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 3rem;
+  border-bottom: 2px solid var(--color-accent);
 }
 
 .section-heading h1 {
   margin-top: 0rem;
-  max-width: 17ch;
-  font-size: clamp(3rem, 7vw, 6.5rem);
+  max-width: 24ch;
+  font-size: clamp(2.8rem, 5.5vw, 4.5rem);
 }
 
 .page-intro > p {
   max-width: 44rem;
-  font-size: 1.3rem;
+  font-size: 1.25rem;
+  line-height: 1.8;
 }
 
 .page-intro > p + p {
@@ -54,8 +65,8 @@ body {
   grid-template-columns: minmax(9rem, 1fr) minmax(0, 3fr);
   gap: 2rem;
   border-top: 1px solid var(--color-rule);
-  margin-top: 3rem;
-  padding-top: 1.5rem;
+  margin-top: 3.5rem;
+  padding-top: 2rem;
 }
 
 .template-section > div {
@@ -69,6 +80,8 @@ body {
 
 .template-copy {
   color: var(--color-muted);
+  font-size: 1rem;
+  line-height: 1.8;
 }
 
 .template-label {
@@ -81,6 +94,7 @@ body {
 .prose {
   max-width: var(--text-width);
   margin: 0 auto;
+  padding-top: 1rem;
 }
 
 .prose > header {
@@ -106,7 +120,7 @@ body {
 .prose blockquote {
   margin: 2rem 0;
   padding-left: 1.5rem;
-  border-left: 1px solid var(--color-text);
+  border-left: 2px solid var(--color-accent);
   font-style: italic;
 }
 
@@ -130,7 +144,13 @@ body {
 }
 
 a:hover {
-  text-decoration-color: var(--color-muted);
+  color: var(--color-accent-hover);
+  text-decoration-color: currentColor;
+}
+
+::selection {
+  color: var(--color-accent);
+  background: #dce7ec;
 }
 
 a:focus-visible {
@@ -161,7 +181,9 @@ a:focus-visible {
 
 @media (prefers-reduced-motion: no-preference) {
   a {
-    transition: opacity 140ms ease;
+    transition:
+      color 160ms ease,
+      border-color 160ms ease;
   }
 }
 
