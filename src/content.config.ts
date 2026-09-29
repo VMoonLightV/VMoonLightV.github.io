@@ -15,6 +15,7 @@ const researchSchema = z.object({
   id: z.string(),
   title: z.string(),
   date: z.string(),
+  order: z.number().int().optional(),
   image: z.string().default(""),
   description: z.string().default(""),
   links: z.array(z.object({ label: z.string(), href: z.string() })).default([]),

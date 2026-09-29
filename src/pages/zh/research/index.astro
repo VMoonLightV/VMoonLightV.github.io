@@ -7,7 +7,12 @@ const entries = (
     "research",
     ({ data }) => !data.draft && data.lang === "zh",
   )
-).sort((a, b) => b.data.date.localeCompare(a.data.date));
+).sort((a, b) => {
+  const orderDifference =
+    (a.data.order ?? Number.MAX_SAFE_INTEGER) -
+    (b.data.order ?? Number.MAX_SAFE_INTEGER);
+  return orderDifference || b.data.date.localeCompare(a.data.date);
+});
 ---
 
 <IndexLayout title="研究" lang="zh" showHeading={false}>

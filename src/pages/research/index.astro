@@ -7,15 +7,21 @@ const entries = (
     "research",
     ({ data }) => !data.draft && data.lang === "en",
   )
-).sort((a, b) => b.data.date.localeCompare(a.data.date));
+).sort((a, b) => {
+  const orderDifference =
+    (a.data.order ?? Number.MAX_SAFE_INTEGER) -
+    (b.data.order ?? Number.MAX_SAFE_INTEGER);
+  return orderDifference || b.data.date.localeCompare(a.data.date);
+});
 ---
 
 <IndexLayout title="Research" showHeading={true}>
-  <p class="template-copy">
-    [Introduce the questions connecting your research in two or three sentences.
-    The entry below is a template for a project, not a record of completed
-    work.]
+  <p class="template-copy research-intro">
+    In particle physics, my interest firstly began from physical analysis, then
+    transitioned to the application of AI/ML methodology. Here list the projects
+    I have participated in.
   </p>
+  <!-- Removed extra closing paragraph tag -->
   <div class="research-list">
     {entries.map((entry) => (
       <ResearchEntry {...entry.data} />

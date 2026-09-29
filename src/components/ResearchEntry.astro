@@ -10,28 +10,44 @@ interface Props {
   description: string;
   links: Link[];
 }
-const { image, title, date, description, links } = Astro.props;
+const {
+  image,
+  title,
+  date,
+  description,
+  links,
+} = Astro.props;
+const dateLines = date.trim().split(/\r?\n/);
 ---
 
 <article class="research-entry">
   <div class="research-image">
-    {image ? (
-      <img src={image} alt={title} loading="lazy" />
-    ) : (
-      <div class="image-placeholder">
-        <span class="image-symbol" aria-hidden="true">
-          ＋
-        </span>
-        <span>Project image</span>
-        <span class="image-note">Image placeholder</span>
-      </div>
-    )}
+    <div class="image-frame">
+      {image ? (
+        <img src={image} alt={title} loading="lazy" />
+      ) : (
+        <div class="image-placeholder">
+          <span class="image-symbol" aria-hidden="true">
+            ＋
+          </span>
+          <span>Project image</span>
+          <span class="image-note">Image placeholder</span>
+        </div>
+      )}
+    </div>
   </div>
   <div class="research-copy">
     <header class="research-heading">
       <h2>{title}</h2>
       <p class="research-date">
-        <time datetime={date}>{date.replace("-", ".")}</time>
+        <time datetime={dateLines[0]}>
+          {dateLines.map((line, index) => (
+            <>
+              {index > 0 && <br />}
+              {line.replace(/-/g, ".")}
+            </>
+          ))}
+        </time>
       </p>
     </header>
     {description && <p class="research-description">{description}</p>}
@@ -48,10 +64,10 @@ const { image, title, date, description, links } = Astro.props;
 </article>
 <style>
   .research-entry {
-    --copy-gap: clamp(1rem, 2vw, 2rem);
+    --copy-gap: clamp(1rem, 5vw, 2rem);
     --title-inset: 1.25rem;
     --diagonal-width: clamp(14px, 1.5vw, 22px);
-    --diagonal-color: var(--color-paper);
+    --diagonal-color: #f7f7f7;
     border: 1px solid var(--color-rule);
     display: grid;
     grid-template-columns: minmax(0, 0.38fr) minmax(0, 0.62fr);
@@ -64,21 +80,25 @@ const { image, title, date, description, links } = Astro.props;
     position: relative;
     min-height: 20rem;
     overflow: hidden;
-    /* The right edge retreats to the left from top to bottom: / . */
-    clip-path: polygon(0 0, 100% 0, 80% 100%, 0 100%);
-    background: var(--color-surface);
-    align-items: center;
-    display: flex;
-    justify-content: center;
     color: var(--color-muted);
     font-size: 0.9rem;
   }
-  .research-image img {
+  .image-frame {
     position: absolute;
     inset: 0;
+    overflow: hidden;
+    background: var(--color-surface);
+    clip-path: polygon(0 0, 100% 0, 80% 100%, 0 100%);
+  }
+  .research-image img {
+    position: absolute;
+    inset: 0 auto 0 0;
+    display: block;
     height: 100%;
-    width: 100%;
-    object-fit: cover;
+    width: auto;
+    max-width: none;
+    object-fit: contain;
+    object-position: left top;
   }
   .research-image::after {
     content: "";
@@ -87,11 +107,12 @@ const { image, title, date, description, links } = Astro.props;
     background: var(--diagonal-color);
     clip-path: polygon(
       calc(100% - var(--diagonal-width)) 0,
-      100% 0,
-      80% 100%,
+      calc(100% + 2px) 0,
+      calc(80% + 2px) 100%,
       calc(80% - var(--diagonal-width)) 100%
     );
     pointer-events: none;
+    z-index: 1;
   }
   .research-copy {
     min-width: 0;
@@ -109,6 +130,7 @@ const { image, title, date, description, links } = Astro.props;
     font-size: 1rem;
     line-height: 1.85;
     color: var(--color-muted);
+    white-space: pre-line;
   }
   .research-copy h2 {
     font-size: clamp(1.4rem, 2.7vw, 2rem);
@@ -118,7 +140,7 @@ const { image, title, date, description, links } = Astro.props;
     color: var(--color-muted);
     margin: 0;
     padding-top: 0.2rem;
-    white-space: nowrap;
+    white-space: pre-line;
     text-align: right;
   }
   ul {
@@ -133,11 +155,14 @@ const { image, title, date, description, links } = Astro.props;
     margin: 0;
   }
   .image-placeholder {
+    position: absolute;
+    inset: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     width: 100%;
+    background: var(--color-surface);
     gap: 0.65rem;
     font-family: var(--font-ui);
     text-align: center;
@@ -163,21 +188,32 @@ const { image, title, date, description, links } = Astro.props;
     }
     .research-image {
       min-height: 0;
-      clip-path: none;
       border-bottom: 1px solid var(--color-rule);
     }
+    .image-frame {
+      position: relative;
+      inset: auto;
+      overflow: visible;
+      clip-path: none;
+    }
     .research-image img {
-      position: static;
+      position: relative;
       height: auto;
+      width: 100%;
+      max-width: 100%;
       object-fit: contain;
+      object-position: left top;
     }
     .research-image::after {
       display: none;
     }
     .image-placeholder {
+      position: relative;
+      inset: auto;
       min-height: 14rem;
       aspect-ratio: 16 / 9;
       padding: 1.5rem;
+      clip-path: none;
     }
   }
 </style>

@@ -67,13 +67,28 @@ const items = isZh
 </header>
 <style>
   .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    isolation: isolate;
     border-bottom: 1px solid var(--color-rule);
     display: flex;
     justify-content: space-between;
     gap: var(--space-md);
     align-items: center;
     padding: 2.25rem 0 1.75rem;
+    background: var(--color-background);
     color: var(--color-accent);
+  }
+  .site-header::after {
+    content: "";
+    position: absolute;
+    top: calc(100% + 1px);
+    right: 0;
+    left: 0;
+    height: 2rem;
+    background: linear-gradient(to bottom, var(--color-background), transparent);
+    pointer-events: none;
   }
   .site-mark {
     font-family: var(--font-body-en);

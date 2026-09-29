@@ -1,3 +1,13 @@
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
 body {
   min-height: 100vh;
 }
@@ -51,7 +61,6 @@ body {
 }
 
 .page-intro > p {
-  max-width: 44rem;
   font-size: 1.25rem;
   line-height: 1.8;
 }
