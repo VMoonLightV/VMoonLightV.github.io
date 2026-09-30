@@ -7,28 +7,47 @@ import IndexLayout from "../../layouts/IndexLayout.astro";
   <section class="template-section">
     <p class="eyebrow">01 / Publications</p>
     <div>
-      <p class="template-label">Reference format · no entries added</p>
-      <h2>[Publication title]</h2>
+      <h2>A Survey of Neural Network Variational Monte Carlo from a Computing Workload Characterization Perspective</h2>
       <p class="template-copy">
-        [Authors, in publication order]
+        Zhengze Xiao and Xuanzhe Ding and Yuyang Lou et al.
         <br />
-        [Journal or proceedings · year · volume / pages]
+        arXiv preprint{" "}
+        <a href="https://arxiv.org/abs/2603.18126" target="_blank" rel="noopener">
+          arXiv:2606.18126
+        </a>{" "}
+        · 2026
       </p>
+
+      <hr class="publication-divider" />
+
+      <h3>AdsMind: A Physics-Grounded Multi-Agent System for Self-Correcting Discovery of Adsorption Configurations on Heterogeneous Catalyst Surfaces</h3>
       <p class="template-copy">
-        [Add the DOI, preprint, and code links when available.]
+        Zongmin Zhang and Yuyang Lou and Bowen Zhang et al.
+        <br />
+        arXiv preprint{" "}
+        <a href="https://arxiv.org/abs/2606.19152" target="_blank" rel="noopener">
+          arXiv:2606.19152
+        </a>{" "}
+        · 2026
       </p>
     </div>
   </section>
+
   <section class="template-section">
-    <p class="eyebrow">02 / Talks</p>
+    <p class="eyebrow">02 / Presentations</p>
     <div>
-      <p class="template-label">Reference format · no entries added</p>
-      <h2>[Talk title]</h2>
-      <p class="template-copy">[Event or institution · location · date]</p>
-      <p class="template-copy">
-        [Add a short description of the audience and topic, followed by slides
-        or a recording when available.]
-      </p>
+      <h2>Event-by-event mass resolution calibration</h2>
+      <p class="template-copy">On Hmm working meeting, October 2025, CERN</p>
+      <hr class="publication-divider" />
+      <h2>Search for H → μμ decay: Data and MC comparison studies for the 2022 and 2023 data</h2>
+      <p class="template-copy">On Higgs to leptons and rare decays meeting, November 2024, USTC</p>
     </div>
   </section>
 </IndexLayout>
+<style>
+  .publication-divider {
+    border: 0;
+    border-top: 1px solid var(--color-rule);
+    margin: 1rem 0;
+  }
+</style>
