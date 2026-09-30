@@ -2,25 +2,14 @@
 import { getCollection } from "astro:content";
 import IndexLayout from "../../layouts/IndexLayout.astro";
 import ResearchEntry from "../../components/ResearchEntry.astro";
-const entries = (
-  await getCollection(
-    "research",
-    ({ data }) => !data.draft && data.lang === "en",
-  )
-).sort((a, b) => {
-  const orderDifference =
-    (a.data.order ?? Number.MAX_SAFE_INTEGER) -
-    (b.data.order ?? Number.MAX_SAFE_INTEGER);
+const entries = (await getCollection("research", ({ data }) => !data.draft && data.lang === "en")).sort((a, b) => {
+  const orderDifference = (a.data.order ?? Number.MAX_SAFE_INTEGER) - (b.data.order ?? Number.MAX_SAFE_INTEGER);
   return orderDifference || b.data.date.localeCompare(a.data.date);
 });
 ---
 
 <IndexLayout title="Research" showHeading={true}>
-  <p class="template-copy research-intro">
-    In particle physics, my interest firstly began from physical analysis, then
-    transitioned to the application of AI/ML methodology. Here list the projects
-    I have participated in.
-  </p>
+  <p class="research-intro">In particle physics, my interest firstly began in physical analysis, then transitioned to the application of AI/ML methodology. Here list the projects I have participated in.</p>
   <!-- Removed extra closing paragraph tag -->
   <div class="research-list">
     {entries.map((entry) => (
