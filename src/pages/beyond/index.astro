@@ -2,10 +2,8 @@
 import { getCollection } from "astro:content";
 import IndexLayout from "../../layouts/IndexLayout.astro";
 import Contents from "../../components/Contents.astro";
-import { contentUrl } from "../../lib/content";
-const entries = (
-  await getCollection("beyond", ({ data }) => !data.draft && data.lang === "en")
-).sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+import { contentUrl, directContentChildren } from "../../lib/content";
+const entries = directContentChildren(await getCollection("beyond", ({ data }) => !data.draft && data.lang === "en"));
 const items = entries.map((entry) => ({
   href: contentUrl("beyond", entry.id, "en"),
   label: entry.data.title,
@@ -13,12 +11,6 @@ const items = entries.map((entry) => ({
 ---
 
 <IndexLayout title="Beyond">
-  <p>
-    There is an inner conner, and I don't know how to define it accurately.
-    Benjamin once used the name of "one way street" to describe his inner
-    feeling. Maybe you can view the contents as a space for thoughts and
-    reflections, or personally interpreted wiki, or just the world from another
-    eyes.
-  </p>
+  <p>There is an inner conner, and I don't know how to define it accurately. Benjamin once used the name of "one way street" to describe his inner feeling. Maybe you can view the contents as a space for thoughts and reflections, or personally interpreted wiki, or just the world from another eyes.</p>
   <Contents items={items} />
 </IndexLayout>

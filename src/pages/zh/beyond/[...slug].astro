@@ -1,32 +1,31 @@
 ---
 import { getCollection, render } from "astro:content";
 import ArticleLayout from "../../../layouts/ArticleLayout.astro";
-import { contentSlug, contentUrl } from "../../../lib/content";
+import Contents from "../../../components/Contents.astro";
+import { contentSlug, contentUrl, directContentChildren } from "../../../lib/content";
 export async function getStaticPaths() {
-  const entries = await getCollection(
-    "zhBeyond",
-    ({ data }) => !data.draft && data.lang === "zh",
-  );
+  const entries = await getCollection("zhBeyond", ({ data }) => !data.draft && data.lang === "zh");
   const translations = await getCollection("beyond", ({ data }) => !data.draft);
   return entries.map((entry) => {
-    const match = entry.data.translation
-      ? translations.find(
-          (candidate) => candidate.data.id === entry.data.translation,
-        )
-      : undefined;
+    const match = entry.data.translation ? translations.find((candidate) => candidate.data.id === entry.data.translation) : undefined;
     return {
       params: { slug: contentSlug(entry.id) },
       props: {
         entry,
+        childItems: directContentChildren(entries, contentSlug(entry.id)).map((child) => ({
+          href: contentUrl("beyond", child.id, "zh"),
+          label: child.data.title,
+        })),
         translationHref: match && contentUrl("beyond", match.id, "en"),
       },
     };
   });
 }
-const { entry, translationHref } = Astro.props;
-const { Content } = await render(entry);
+const { entry, translationHref, childItems } = Astro.props;
+const { Content, headings } = await render(entry);
 ---
 
-<ArticleLayout {...entry.data} translationHref={translationHref} lang="zh">
+<ArticleLayout {...entry.data} translationHref={translationHref} lang="zh" headings={headings} isTopic={childItems.length > 0}>
   <Content />
+  <Contents compact items={childItems} title="本主题文章" />
 </ArticleLayout>

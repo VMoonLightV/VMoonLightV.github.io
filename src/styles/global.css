@@ -60,7 +60,8 @@ body {
   font-size: clamp(2.8rem, 5.5vw, 4.5rem);
 }
 
-.page-intro > p {
+.page-intro > p,
+.prose.topic-page > p {
   font-size: 1.25rem;
   line-height: 1.8;
 }
@@ -113,8 +114,8 @@ body {
 }
 
 .prose > header h1 {
-  margin-top: 1rem;
-  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  margin-top: 0;
+  font-size: clamp(2rem, 4vw, 3rem);
 }
 
 .prose > * + * {

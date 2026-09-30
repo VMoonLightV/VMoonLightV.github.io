@@ -1,49 +1,114 @@
 ---
 import BaseLayout from "./BaseLayout.astro";
+import ArticleContents from "../components/ArticleContents.astro";
+import type { MarkdownHeading } from "astro";
+import "katex/dist/katex.min.css";
+import "../styles/math.css";
 interface Props {
   title: string;
   date: Date;
   description?: string;
   lang?: "en" | "zh";
   translationHref?: string;
+  headings?: MarkdownHeading[];
+  isTopic?: boolean;
 }
-const {
-  title,
-  date,
-  description = "",
-  lang = "en",
-  translationHref,
-} = Astro.props;
+const { title, date, description = "", lang = "en", translationHref, headings = [], isTopic = false } = Astro.props;
 ---
 
-<BaseLayout
-  title={title}
-  description={description}
-  lang={lang}
-  isArticle
-  languageHref={translationHref}
->
-  <article class="prose">
-    <header>
-      <p class="eyebrow">{lang === "zh" ? "文稿" : "From the archive"}</p>
-      <h1>{title}</h1>
-      <p class="article-meta">
-        <time datetime={date.toISOString().slice(0, 10)}>
-          {date.toLocaleDateString(lang === "zh" ? "zh-CN" : "en-GB", {
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-          })}
-        </time>
-      </p>
-      {translationHref && (
-        <p class="article-language">
-          <a href={translationHref}>
-            {lang === "zh" ? "Read in English" : "阅读中文版"}
-          </a>
-        </p>
-      )}
-    </header>
-    <slot />
-  </article>
+<BaseLayout title={title} description={description} lang={lang} isArticle languageHref={translationHref}>
+  <div class:list={["article-layout", { "with-contents": headings.length > 0 }]}>
+    {headings.length > 0 && <ArticleContents headings={headings} lang={lang} />}
+    <article class:list={["prose", { "topic-page": isTopic }]}>
+      <header>
+        <h1>{title}</h1>
+        {!isTopic && (
+          <p class="article-meta">
+            <time datetime={date.toISOString().slice(0, 10)}>
+              {date.toLocaleDateString(lang === "zh" ? "zh-CN" : "en-GB", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })}
+            </time>
+          </p>
+        )}
+        {translationHref && (
+          <p class="article-language">
+            <a href={translationHref}>{lang === "zh" ? "Read in English" : "阅读中文版"}</a>
+          </p>
+        )}
+      </header>
+      <slot />
+    </article>
+  </div>
 </BaseLayout>
+
+<style>
+  .topic-page {
+    padding-top: 0;
+  }
+
+  .topic-page > header {
+    position: relative;
+    border-bottom: 0;
+    padding-bottom: 1rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .topic-page > header::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 3rem;
+    border-bottom: 2px solid var(--color-accent);
+  }
+
+  .topic-page > header h1 {
+    margin-top: 0;
+    font-size: clamp(2rem, 4vw, 3rem);
+  }
+
+  .topic-page .article-meta,
+  .topic-page .article-language {
+    margin-top: 0.5rem;
+  }
+
+  .article-layout.with-contents {
+    display: grid;
+    gap: 2rem;
+  }
+
+  .article-layout > article {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .with-contents :global(.prose :is(h1, h2, h3, h4, h5, h6)[id]) {
+    scroll-margin-top: 10rem;
+  }
+
+  @media (min-width: 1200px) {
+    .article-layout.with-contents {
+      grid-template-columns: minmax(9rem, 1fr) minmax(0, 3fr);
+    }
+
+    .with-contents > article {
+      margin-inline: 0;
+    }
+  }
+
+  @media (max-width: 1199px) {
+    .article-layout.with-contents {
+      max-width: var(--text-width);
+      margin-inline: auto;
+    }
+  }
+
+  @media (max-width: 740px) {
+    .with-contents :global(.prose :is(h1, h2, h3, h4, h5, h6)[id]) {
+      scroll-margin-top: 14rem;
+    }
+  }
+</style>

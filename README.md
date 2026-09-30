@@ -38,11 +38,27 @@ The visual direction references [Yale's website](https://www.yale.edu/): deep bl
 
 Create a folder and `index.md` (or `index.mdx`) under `src/content/notes/`. The folder hierarchy becomes the URL hierarchy: for example, `src/content/notes/physics/qft/example/index.md` becomes `/notes/physics/qft/example/`.
 
+The Notes homepage lists only top-level entries. Each topic's `index.md` or `index.mdx` automatically lists its immediate child topics and notes, so navigation follows Notes → Physics → QFT → individual notes. Create an index file for each topic folder; new published notes appear in their parent topic automatically. Drafts and articles in another language are excluded.
+
 Use the article frontmatter fields `id`, `title`, `date`, and `lang`; `description`, `translation`, and `draft` are optional. Each `id` should remain stable, even if the content location changes later.
+
+Note headings automatically populate the article's table of contents, including nested heading levels and Setext headings (a title underlined with `---`). The contents stay on the left on wide screens and appear above the article on smaller screens. Notes without headings omit the contents.
+
+Markdown and MDX articles support LaTeX math, rendered at build time with KaTeX. Use `$E = mc^2$` for inline math, or put `$$` on separate lines for a display equation:
+
+```markdown
+$$
+\int_0^1 x^2\,dx = \frac{1}{3}
+$$
+```
+
+Long display equations scroll horizontally on narrow screens. Keep literal dollar signs outside formulas escaped as `\$`, and use code spans or fenced code blocks when showing formula source.
 
 ## Adding a new Beyond article
 
 Create the same folder-and-`index.md` (or `.mdx`) structure under `src/content/beyond/`. It is automatically listed and routed under `/beyond/`.
+
+Beyond follows the same hierarchy as Notes: the homepage lists top-level topics and root-level articles, and each topic page lists only its immediate children. Add an `index.md` or `index.mdx` for every topic folder. Article headings also generate a table of contents. The same rules apply to Chinese Beyond content.
 
 ## Adding a Research item
 

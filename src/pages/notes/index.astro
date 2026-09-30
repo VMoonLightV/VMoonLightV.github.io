@@ -2,10 +2,8 @@
 import { getCollection } from "astro:content";
 import IndexLayout from "../../layouts/IndexLayout.astro";
 import Contents from "../../components/Contents.astro";
-import { contentUrl } from "../../lib/content";
-const entries = (
-  await getCollection("notes", ({ data }) => !data.draft && data.lang === "en")
-).sort((a, b) => a.id.localeCompare(b.id));
+import { contentUrl, directContentChildren } from "../../lib/content";
+const entries = directContentChildren(await getCollection("notes", ({ data }) => !data.draft && data.lang === "en"));
 const items = entries.map((entry) => ({
   href: contentUrl("notes", entry.id, "en"),
   label: entry.data.title,
@@ -13,10 +11,6 @@ const items = entries.map((entry) => ({
 ---
 
 <IndexLayout title="Notes">
-  <p>Notes, arranged by subject.</p>
-  <p class="template-copy">
-    [Introduce how you use these notes: what they cover, where to begin, and
-    which questions are still open. This is a writing template.]
-  </p>
+  <p>These notes are mostly my personal study reviews and reflections on various subjects, written in a narrative style.</p>
   <Contents items={items} />
 </IndexLayout>

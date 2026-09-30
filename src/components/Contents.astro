@@ -6,12 +6,13 @@ interface Item {
 interface Props {
   items: Item[];
   title?: string;
+  compact?: boolean;
 }
-const { items, title = "Contents" } = Astro.props;
+const { items, title = "Contents", compact = false } = Astro.props;
 ---
 
 {items.length > 0 && (
-  <nav class="contents" aria-label={title}>
+  <nav class:list={["contents", { compact }]} aria-label={title}>
     <>
       <h2>{title}</h2>
       <ul>
@@ -33,6 +34,21 @@ const { items, title = "Contents" } = Astro.props;
   </nav>
 )}
 <style>
+  .contents.compact {
+    margin-top: 1rem;
+    padding-top: 0.75rem;
+  }
+  .contents.compact h2 {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+  }
+  .contents.compact ul {
+    padding: 0;
+  }
+  .contents.compact a {
+    padding-block: 0.85rem;
+  }
+
   .contents {
     border-top: 1px solid var(--color-accent);
     margin-top: var(--space-lg);
