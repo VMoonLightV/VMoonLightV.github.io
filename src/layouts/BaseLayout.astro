@@ -14,12 +14,13 @@ interface Props {
 }
 const {
   title = "Yuyang Lou",
-  description = "",
+  description,
   lang = "en",
   languageHref,
   isArticle = false,
 } = Astro.props;
 const pageTitle = title === "Yuyang Lou" ? title : `${title} — Yuyang Lou`;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin);
 ---
 
 <!doctype html>
@@ -27,9 +28,14 @@ const pageTitle = title === "Yuyang Lou" ? title : `${title} — Yuyang Lou`;
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
-    <meta name="description" content={description} />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{pageTitle}</title>
+    {description && <meta name="description" content={description} />}
+    <link rel="canonical" href={canonicalURL} />
+    <meta property="og:title" content={pageTitle} />
+    {description && <meta property="og:description" content={description} />}
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:type" content="website" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   </head>
   <body id="top">
     <a class="skip-link" href="#main-content">
