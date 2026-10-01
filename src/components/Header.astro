@@ -3,17 +3,17 @@ interface Props {
   lang?: "en" | "zh";
   languageHref?: string;
   isArticle?: boolean;
+  statement?: { lines: string[]; lang?: string };
 }
-const { lang = "en", languageHref, isArticle = false } = Astro.props;
+const {
+  lang = "en",
+  languageHref,
+  isArticle = false,
+  statement = { lines: ["Exploiting the Nature and Humanity."], lang: "en" },
+} = Astro.props;
 const isZh = lang === "zh";
 const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
-const switchHref =
-  languageHref ??
-  (isArticle
-    ? undefined
-    : isZh
-      ? currentPath.replace(/^\/zh/, "") || "/"
-      : `/zh${currentPath === "/" ? "/" : `${currentPath}/`}`);
+const switchHref = languageHref ?? (isArticle ? undefined : isZh ? currentPath.replace(/^\/zh/, "") || "/" : `/zh${currentPath === "/" ? "/" : `${currentPath}/`}`);
 const items = isZh
   ? [
       ["关于", "/zh/about/"],
@@ -31,35 +31,23 @@ const items = isZh
     ];
 ---
 
-<header class="site-header">
-  <a
-    class="site-mark"
-    href={isZh ? "/zh/" : "/"}
-    aria-label={isZh ? "返回封面" : "Back to cover"}
-  >
+<header class:list={["site-header", { "home-header": statement }]}>
+  <a class="site-mark" href={isZh ? "/zh/" : "/"} aria-label={isZh ? "返回封面" : "Back to cover"}>
     YL.
   </a>
+  {statement && (
+    <p class="header-statement" lang={statement.lang}>
+      {statement.lines.join(" ")}
+    </p>
+  )}
   <nav aria-label={isZh ? "主要导航" : "Primary navigation"}>
     {items.map(([label, href]) => (
-      <a
-        href={href}
-        aria-current={
-          currentPath === href.slice(0, -1)
-            ? "page"
-            : currentPath.startsWith(href)
-              ? "location"
-              : undefined
-        }
-      >
+      <a href={href} aria-current={currentPath === href.slice(0, -1) ? "page" : currentPath.startsWith(href) ? "location" : undefined}>
         {label}
       </a>
     ))}
     {switchHref && (
-      <a
-        class="language-link"
-        href={switchHref}
-        aria-label={isZh ? "Read in English" : "阅读中文版"}
-      >
+      <a class="language-link" href={switchHref} aria-label={isZh ? "Read in English" : "阅读中文版"}>
         {isZh ? "EN" : "中文"}
       </a>
     )}
@@ -98,6 +86,21 @@ const items = isZh
     text-decoration: none;
     white-space: nowrap;
   }
+  .home-header {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: 1rem 1.5rem;
+  }
+  .header-statement {
+    font-family: "Monotype Corsiva", "Apple Chancery", "Segoe Script", cursive;
+    font-style: italic;
+    font-size: 1.4rem;
+    line-height: 1.4;
+    letter-spacing: -0.025em;
+  }
+  .home-header nav {
+    column-gap: 1.5rem;
+  }
   nav {
     font-family: var(--font-heading);
     font-size: 1.025rem;
@@ -122,7 +125,22 @@ const items = isZh
     font: 0.75rem/1.7 var(--font-ui);
     align-self: center;
   }
+  @media (max-width: 1199px) {
+    .home-header {
+      grid-template-columns: auto minmax(0, 1fr);
+    }
+    .home-header nav {
+      grid-column: 1 / -1;
+    }
+  }
   @media (max-width: 740px) {
+    .site-header.home-header {
+      display: grid;
+      column-gap: 1.25rem;
+    }
+    .home-header nav {
+      margin-top: 0;
+    }
     .site-header {
       display: block;
       padding: 1.5rem 0 1rem;

@@ -16,3 +16,25 @@ export function contentUrl(section: "notes" | "beyond", id: string, lang: "en" |
   const slug = contentSlug(id);
   return `/${lang === "zh" ? "zh/" : ""}${section}/${slug ? `${slug}/` : ""}`;
 }
+
+export interface BreadcrumbItem {
+  label: string;
+  href?: string;
+}
+
+export function contentBreadcrumbs<T extends { id: string; data: { title: string } }>(
+  entries: T[], entry: T, section: "notes" | "beyond", lang: "en" | "zh",
+): BreadcrumbItem[] {
+  const items: BreadcrumbItem[] = [{
+    label: section === "notes" ? (lang === "zh" ? "笔记" : "Notes") : "Beyond",
+    href: contentUrl(section, "", lang),
+  }];
+  const segments = contentSlug(entry.id).split("/");
+  for (let depth = 1; depth < segments.length; depth++) {
+    const slug = segments.slice(0, depth).join("/");
+    const parent = entries.find((candidate) => contentSlug(candidate.id) === slug);
+    if (parent) items.push({ label: parent.data.title, href: contentUrl(section, parent.id, lang) });
+  }
+  items.push({ label: entry.data.title });
+  return items;
+}

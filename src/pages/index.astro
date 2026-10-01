@@ -14,12 +14,9 @@ const coverContent = {
     lines: ["Exploiting the Nature and Humanity."],
     lang: "en",
   },
-  personalInformation: [
-    { text: "Student in particle physics and AI/ML.", lang: "en" },
-    { text: "University of Science and Technology of China" },
-  ],
+  personalInformation: [{ text: "Student in particle physics and AI/ML.", lang: "en" }, { text: "University of Science and Technology of China" }],
   contact: {
-    label: "Profiles",
+    label: "",
     email: "yuyanglune@gmail.com",
     profiles: [
       {
@@ -28,24 +25,21 @@ const coverContent = {
       },
       { label: "ORCID", href: "https://orcid.org/0009-0005-8892-9299" },
       { label: "GitHub", href: "https://github.com/VMoonLightV" },
-      { label: "CV — forthcoming" },
+      { label: "" },
     ],
   },
   introduction: {
     eyebrow: "",
     title: "An introduction",
     templateLabel: "",
-    paragraphs: [
-      "Hello world, this is the personal website of Yuyang Lou. I'm interested in fundamental physics and exploring how Artificial Intelligence or Machine Learning can be used to deepen our understanding of the universe.",
-      "Beyond physics, I'm also interested in humanity, including culture, literatures, philosophy, and so on. My motivation is to understand our human's mind and existence in the universe, which not only requires knowledge, but also a sense of feeling due to my experience.",
-      "Now I just graduated from the University of Science and Technology of China (USTC) with a bachelor's degree, but there remains too many things for me to keep pursuing. Hope there will be something matching your interest or reflection.",
-    ],
+    paragraphs: ["Hello world, this is the personal website of Yuyang Lou. I'm interested in fundamental physics and exploring how Artificial Intelligence or Machine Learning can be used to deepen our understanding of the universe.", "Beyond physics, I'm also interested in humanity, including culture, literatures, philosophy, and so on. My motivation is to understand our human's mind and existence in the universe, which not only requires knowledge, but also a sense of feeling due to my experience.", "Now I just graduated from the University of Science and Technology of China (USTC) with a bachelor's degree, but there remains too many things for me to keep pursuing. Hope there will be something matching your interest or reflection."],
     aboutLabel: "More about me",
     aboutHref: "/about/",
   },
+  news: [{ date: "09/27/2026", text: "Publish my new page!" }],
 };
 ---
 
-<BaseLayout title="Yuyang Lou">
+<BaseLayout title="Yuyang Lou" statement={coverContent.statement}>
   <HomeCover content={coverContent} />
 </BaseLayout>

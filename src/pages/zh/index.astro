@@ -3,6 +3,11 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import HomeCover from "../../components/HomeCover.astro";
 
 const coverContent = {
+  news: [
+    { date: "日期待添加", text: "消息 1 · 待添加" },
+    { date: "日期待添加", text: "消息 2 · 待添加" },
+    { date: "日期待添加", text: "消息 3 · 待添加" },
+  ],
   name: { first: "Yuyang", last: "Lou" },
   image: {
     src: "/images/avatar.png",
@@ -45,6 +50,6 @@ const coverContent = {
 };
 ---
 
-<BaseLayout title="Yuyang Lou" lang="zh">
-  <HomeCover content={coverContent} />
+<BaseLayout title="Yuyang Lou" lang="zh" statement={coverContent.statement}>
+  <HomeCover content={coverContent} lang="zh" />
 </BaseLayout>

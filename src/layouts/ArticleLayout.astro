@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "./BaseLayout.astro";
 import ArticleContents from "../components/ArticleContents.astro";
+import type { BreadcrumbItem } from "../lib/content";
 import type { MarkdownHeading } from "astro";
 import "katex/dist/katex.min.css";
 import "../styles/math.css";
@@ -12,13 +13,25 @@ interface Props {
   translationHref?: string;
   headings?: MarkdownHeading[];
   isTopic?: boolean;
+  breadcrumbs?: BreadcrumbItem[];
 }
-const { title, date, description = "", lang = "en", translationHref, headings = [], isTopic = false } = Astro.props;
+const { title, date, description = "", lang = "en", translationHref, headings = [], isTopic = false, breadcrumbs = [] } = Astro.props;
 ---
 
 <BaseLayout title={title} description={description} lang={lang} isArticle languageHref={translationHref}>
-  <div class:list={["article-layout", { "with-contents": headings.length > 0 }]}>
-    {headings.length > 0 && <ArticleContents headings={headings} lang={lang} />}
+  <div class:list={["article-layout", { "with-contents": headings.length > 0 || breadcrumbs.length > 0 }]}>
+    <aside class="article-sidebar">
+      {breadcrumbs.length > 0 && (
+        <nav class="breadcrumbs" aria-label={lang === "zh" ? "文章路径" : "Breadcrumb"}>
+          <ol>
+            {breadcrumbs.map((item, index) => (
+              <li class:list={{ "current-article": index === breadcrumbs.length - 1 }}>{item.href ? <a href={item.href}>{item.label}</a> : <span aria-current="page">{item.label}</span>}</li>
+            ))}
+          </ol>
+        </nav>
+      )}
+      {headings.length > 0 && <ArticleContents headings={headings} lang={lang} />}
+    </aside>
     <article class:list={["prose", { "topic-page": isTopic }]}>
       <header>
         <h1>{title}</h1>
@@ -45,6 +58,49 @@ const { title, date, description = "", lang = "en", translationHref, headings = 
 </BaseLayout>
 
 <style>
+  :global(.page-main:has(.article-layout)) {
+    padding-top: 2rem;
+  }
+  .article-sidebar {
+    min-width: 0;
+    align-self: start;
+  }
+  .breadcrumbs {
+    margin-bottom: 1.5rem;
+    font: italic 0.78rem/1.7 var(--font-ui);
+    color: var(--color-muted);
+  }
+  .breadcrumbs ol {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem 0.65rem;
+    list-style: none;
+    padding: 0;
+  }
+  .breadcrumbs li {
+    display: flex;
+    gap: 0.65rem;
+    min-width: 0;
+    margin: 0;
+  }
+  .breadcrumbs li + li::before {
+    content: ">";
+    color: var(--color-muted);
+  }
+  .breadcrumbs li:nth-last-child(2)::after {
+    content: ">";
+  }
+  .breadcrumbs .current-article {
+    flex-basis: 100%;
+  }
+  .breadcrumbs a {
+    color: var(--color-accent);
+    text-decoration: none;
+  }
+  .breadcrumbs a:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
   .topic-page {
     padding-top: 0;
   }
@@ -83,6 +139,7 @@ const { title, date, description = "", lang = "en", translationHref, headings = 
   .article-layout > article {
     min-width: 0;
     width: 100%;
+    padding-top: 0;
   }
 
   .with-contents :global(.prose :is(h1, h2, h3, h4, h5, h6)[id]) {
@@ -90,6 +147,17 @@ const { title, date, description = "", lang = "en", translationHref, headings = 
   }
 
   @media (min-width: 1200px) {
+    .article-sidebar {
+      position: sticky;
+      top: 9.375rem;
+      max-height: calc(100dvh - 9.375rem);
+      overflow-y: auto;
+    }
+    .article-sidebar :global(.article-contents) {
+      position: static;
+      max-height: none;
+      overflow: visible;
+    }
     .article-layout.with-contents {
       grid-template-columns: minmax(9rem, 1fr) minmax(0, 3fr);
     }

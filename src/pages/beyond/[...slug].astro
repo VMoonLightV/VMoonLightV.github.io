@@ -2,7 +2,7 @@
 import { getCollection, render } from "astro:content";
 import ArticleLayout from "../../layouts/ArticleLayout.astro";
 import Contents from "../../components/Contents.astro";
-import { contentSlug, contentUrl, directContentChildren } from "../../lib/content";
+import { contentSlug, contentUrl, directContentChildren, contentBreadcrumbs } from "../../lib/content";
 export async function getStaticPaths() {
   const entries = await getCollection("beyond", ({ data }) => !data.draft && data.lang === "en");
   const translations = await getCollection("zhBeyond", ({ data }) => !data.draft);
@@ -12,6 +12,7 @@ export async function getStaticPaths() {
       params: { slug: contentSlug(entry.id) },
       props: {
         entry,
+        breadcrumbs: contentBreadcrumbs(entries, entry, "beyond", "en"),
         childItems: directContentChildren(entries, contentSlug(entry.id)).map((child) => ({
           href: contentUrl("beyond", child.id, "en"),
           label: child.data.title,
@@ -21,11 +22,11 @@ export async function getStaticPaths() {
     };
   });
 }
-const { entry, translationHref, childItems } = Astro.props;
+const { entry, translationHref, childItems, breadcrumbs } = Astro.props;
 const { Content, headings } = await render(entry);
 ---
 
-<ArticleLayout {...entry.data} translationHref={translationHref} headings={headings} isTopic={childItems.length > 0}>
+<ArticleLayout {...entry.data} breadcrumbs={breadcrumbs} translationHref={translationHref} headings={headings} isTopic={childItems.length > 0}>
   <Content />
   <Contents compact items={childItems} title="Articles in this topic" />
 </ArticleLayout>

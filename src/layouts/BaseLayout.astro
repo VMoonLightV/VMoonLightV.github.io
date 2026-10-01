@@ -11,14 +11,9 @@ interface Props {
   lang?: "en" | "zh";
   languageHref?: string;
   isArticle?: boolean;
+  statement?: { lines: string[]; lang?: string };
 }
-const {
-  title = "Yuyang Lou",
-  description,
-  lang = "en",
-  languageHref,
-  isArticle = false,
-} = Astro.props;
+const { title = "Yuyang Lou", description, lang = "en", languageHref, isArticle = false, statement } = Astro.props;
 const pageTitle = title === "Yuyang Lou" ? title : `${title} — Yuyang Lou`;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin);
 ---
@@ -42,7 +37,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin)
       {lang === "zh" ? "跳至正文" : "Skip to content"}
     </a>
     <div class="site-shell">
-      <Header lang={lang} languageHref={languageHref} isArticle={isArticle} />
+      <Header lang={lang} languageHref={languageHref} isArticle={isArticle} statement={statement} />
       <main class="page-main" id="main-content" tabindex="-1">
         <slot />
       </main>
