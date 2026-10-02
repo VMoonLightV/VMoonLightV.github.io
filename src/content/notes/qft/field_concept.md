@@ -6,7 +6,6 @@ lang: en
 description: ""
 ---
 
-
 In quantum field theory, instead of classical particle point or wave with different angular momentum, we introduce the field again, which we have seen in electrodynamics, as $\vec E,~\vec B$, and in the gauge field form $A_{\mu},~\phi,~F_{\mu\nu}$.
 
 The motivation that we introduce the field to describe the interaction of particles is that:
@@ -48,7 +47,7 @@ Spinor Field
 
 > Srednicki introduces so many math at first, which I've already forgotten after chapters. As for me, spin-1/2 is a relatively difficult section.
 
-The motivation of defining a spinor field for spin-1/2 particle is to satisfy the rules of its transformation in the language of field theory. Here, we first deal with the representation of the spinor field, then its statistical laws of fermions. A natural question is, what's the difference between spinor field and scalar field? Because its spin property also needs to be dealt with in its field representation, as spin is a irreducible representation in Poincare group.
+The motivation of defining a spinor field for spin-1/2 particle is to satisfy the rules of its transformation in the language of field theory. Here, we first deal with the representation of the spinor field from the structure of field representation, then its statistical laws of fermions. A natural question is, what's the difference between spinor field and scalar field? Because its spin property also needs to be dealt with in its field representation, as spin is a irreducible representation in Poincare group.
 
 Consider a infinitesimal transformation: $\Lambda^{\mu}_{\nu} = \delta^{\mu}_{\nu} + \omega^{\mu}_{\nu},~ x^{\mu} \rightarrow \Lambda^{\mu}_{\nu}x^{\nu}$, from $\Lambda^{T} g \Lambda = g$ we have $\omega_{\mu\nu} = -\omega_{\nu\mu}$, thus we only have 6 generator $M^{\mu\nu}$ (like triangle matrix) in Lorentz transformation. We would like to organize them as $J_{i} = \frac{1}{2}\varepsilon_{ijk}M^{jk}$ (rotate), $K_{i}=M^{0i}$ (boost), which have algebra $[J_i,J_j]=i\epsilon_{ijk}J_k,~[J_i,K_j]=i\epsilon_{ijk}K_k,~[K_i,K_j]=-i\epsilon_{ijk}J_k$.
 
@@ -63,11 +62,13 @@ Now we can define the so-called "spinor field" $\psi_L,\psi_R$ with such represe
 - We find that rotating $2\pi$ will cause $\psi \rightarrow -\psi$ as what we did in quantum mechanics!
 
 
-
 Next, we introduce the calculus rules of the spinor fields. As the derivative of the spinor fields is so complicated, their calculus also follows specific rules.
 We will clarify $\varepsilon_{ij}$, $\sigma^{\mu}_{a\dot a}$, and $\gamma^{\mu}$, and derive the Dirac equation in the end.
 - These should be studied before Feynman rules of spinor fields, but the advanced calculus tricks can be studied just before QED.
 - Maybe should move to an independent section.
+
+With further analysis of the Dirac equation, we will write:
+$$\Psi(x) = \sum_s\int\widetilde{dp} [ a_s(\mathbf p)u_s(p)e^{ipx} + b_s^\dagger(\mathbf p)v_s(p)e^{-ipx}]$$
 
 
 BTW, another more intuitive way to derive the Dirac equation is historical, with less modern mathematical structure. For Schrodinger equation $i\partial_{t}\psi = E \psi$, we want to integrate special relativity $E^2 = \mathbf{p}^2 + m^2$ into it by writing $E = \vec \alpha·\mathbf{p} +\beta m$. This requires $\{\alpha_i,\alpha_j\}=2\delta_{ij},~\{\alpha_i,\beta\}=0, ~\beta^2=1$, which can be further organized as Clifford algebra $\{\gamma^{\mu}, \gamma^{\nu}\} = 2g^{\mu\nu}$. In this way, the dynamic equation can be written as $(i \gamma^{\mu}\partial_{\mu} -m) \psi = 0$. However, such derivative can't tell us the representation structure.
@@ -75,8 +76,20 @@ BTW, another more intuitive way to derive the Dirac equation is historical, with
 Vector Field
 ---
 
-One step further, let's look into the $(\frac{1}{2},\frac{1}{2})$, which can represent the spin-1 4-vector field.
 
+I think we have 2 ways to derive the vector field at least: the representation structure of fields or the gauge invariance of Electromagnetic. Let's follow the "modern" perspective of representation in Lorentz transformation, and meet gauge theory in the end.
 
+Let's look into the $(\frac{1}{2},\frac{1}{2})$, whose irreducible dimension is $2 \times 2 = 4$. Such $2 \times 2$ representation can correspond to 4-dim spacetime vector through $V_{a \dot a} = V_{\mu} \sigma^{\mu}_{a \dot a}$, or be written as $V = V_{\mu} \sigma ^{\mu}$, where $\sigma^{\mu} = (I,\sigma^{i})$. Under any transformation $V \rightarrow S V S^{\dagger}$, where $\det S = 1$, $\det V' = \det V = V_{\mu}V^{\mu}$, thus $V^{\mu} \rightarrow \Lambda^{\mu}_{\nu} V^{\nu}$ is Lorentz transformation, where $\Lambda^{\nu}_{\mu} \sigma^{\mu} = S \sigma^{\nu} S^{\dagger}$.
 
-- Here is a simple group calculation $\frac{1}{2} \otimes \frac{1}{2} = 0 \oplus 1$: 
+For two $SU(2)$ group $(\frac{1}{2}, \frac{1}{2})$ under the same space rotation, the angular momentum addition gives $\frac{1}{2} \otimes \frac{1}{2} = 0 \oplus 1$, which means that the Lorentz 4-vector can be divided into a spin-0 and spin-1 triplet, like $A^{\mu} = (A^{0},\mathbf{A})$. To remove the spin-0 term, consider the simplest Lagrangian $\mathcal L = -\frac12(\partial_\mu A_\nu)(\partial^\mu A^\nu) +\frac{\alpha}{2}(\partial_\mu A^\mu)^2 +\frac12m^2A_\mu A^\mu$, where the coefficient of the second kinetic term is not decided yet. The Euler-Lagrange equation gives $(\Box+m^2)A^\nu -\alpha\,\partial^\nu(\partial\cdot A)=0$, and we can add another divergence $\partial_{\nu}$ to derive $(1-\alpha)\Box(\partial\cdot A) + m^2(\partial\cdot A)=0$. If $\partial A \neq 0$, it means that $A^0$ spin-0 term have its dynamics as an additional scalar mode, but we don't want it in spin-1 field and thus constrains $\alpha = 1$.
+
+In this way, we have Lagrangian $\mathcal L_{\rm Proca} = -\frac14F_{\mu\nu}F^{\mu\nu} +\frac12m^2A_\mu A^\mu$, where $F_{\mu\nu} = \partial_\mu A_\nu-\partial_\nu A_\mu$ and the motion equation is $(\Box+m^2)A^\mu=0$. Take a plain wave $A^\mu(x) = \epsilon^\mu(p)e^{-ip\cdot x}$, $\partial_{\mu}A^{\mu}$ gives $p_{\mu} \epsilon^{\mu}(p) = 0$. For massive spin-1 field, we can operate in the rest frame where $p^{\mu} = (m,0,0,0)$, and gives $\epsilon^0=0$, other 3 terms $\epsilon_{+1}, \epsilon_{0}, \epsilon_{-1}$ form the $(j=1)$ physical polarization for spin-1 representation, like $\{x,y,z\} \rightarrow \{+,-,0\}$ eigenstates in angular momentum representation.
+- Actually, the constrain in Lagrangian derives $\partial_{\mu}A^{\mu}=0$ by adding another divergence $\partial^{\nu}$, making 1 freedom degree in $A^{\mu}$ degree disappear and leaving 3 freedom degrees corresponding to $\lambda = +1,0,-1$.
+
+For massless spin-1 field, the motion equation becomes $\partial_\mu F^{\mu\nu}=0$, and we can't derive the constrain $\partial_{\mu}A^{\mu}=0$ again. In this way, as $F_{\mu\nu} = \partial_\mu A_\nu-\partial_\nu A_\mu$, which is invariant under transformation $A_\mu\rightarrow A_\mu+\partial_\mu\alpha$, this yields gauge redundancy: $\partial_{\mu}A^{\mu}=0$ can be just a gauge choice. Besides $\Box\alpha=0$, there is still residual gauge transformation satisfying it, where another nonphysical freedom can be removed, leaving only 2 freedom degrees corresponding to $\lambda=+1, -1$. This also means that massless particle has no rest frame, we will use helicity to describe it later.
+
+Under the mode expansion, the vector field can be written as:
+$$A^\mu(x) = \sum_{\lambda} \int\widetilde{dp}\ [ \epsilon^\mu_\lambda(p) a_\lambda(\mathbf p)e^{ipx} + \epsilon^{\mu *}_\lambda(p) a_\lambda^\dagger(\mathbf p)e^{-ipx}]$$
+- The quantization is not done yet.
+
+We might notice that the "gauge transformation" $A_\mu\rightarrow A_\mu+\partial_\mu\alpha$ seems interesting and useful if the global phase symmetry $\psi(x)\to e^{iq\alpha}\psi(x)$ become local $\alpha \rightarrow \alpha(x)$, which makes the derivative don't work and requires the covariant derivative. We leave the gauge structure to other section.
