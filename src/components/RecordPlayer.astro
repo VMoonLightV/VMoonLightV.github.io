@@ -1,0 +1,225 @@
+---
+import { readdirSync } from "node:fs";
+import { join } from "node:path";
+
+interface Props {
+  lang?: "en" | "zh";
+}
+const { lang = "en" } = Astro.props;
+const isZh = lang === "zh";
+const tracks = readdirSync(join(process.cwd(), "public/music"))
+  .filter((name) => /\.(mp3|m4a|ogg|wav|aac|flac)$/i.test(name))
+  .sort()
+  .map((name) => ({ src: `/music/${encodeURIComponent(name)}`, title: name.replace(/\.[^.]+$/, "") }));
+---
+
+<div class="record-player" data-tracks={JSON.stringify(tracks)} data-lang={lang}>
+  <button
+    class="record-toggle"
+    type="button"
+    aria-label={isZh ? "播放音乐；右键调整音量" : "Play music; right-click to adjust volume"}
+    title={isZh ? "点击播放／暂停 · 右键调整音量" : "Click to play / pause · Right-click for volume"}
+    aria-pressed="false"
+    aria-controls="beyond-volume"
+    aria-expanded="false"
+    disabled={tracks.length === 0}
+  >
+    <svg viewBox="0 0 72 72" fill="none" aria-hidden="true">
+      <g class="turntable">
+        <polygon points="9,49 16,42 60,42 54,49" fill="currentColor" fill-opacity=".2" />
+        <polygon points="9,51 56,51 53,59 9,59" fill="currentColor" />
+        <g transform="translate(31 46) scale(1 .22)">
+          <g class="vinyl">
+            <polygon points="-19,0 -16.45,-9.5 -9.5,-16.45 0,-19 9.5,-16.45 16.45,-9.5 19,0 16.45,9.5 9.5,16.45 0,19 -9.5,16.45 -16.45,9.5" fill="currentColor" />
+          </g>
+        </g>
+        <polygon points="45,24 54,24 59,29 59,34 51,43 47,41 55,32 55,30 52,28 44,28" fill="currentColor" />
+        <polygon points="15,5 49,24 46,30 21,32" fill="currentColor" fill-opacity=".28" />
+        <polygon points="8,10 15,5 27,15 28,27 21,32 10,24" fill="currentColor" />
+        <g class="tonearm">
+          <polygon points="54,41 56,41 56,44 41,48 41,50 39,50 39,47 54,43" fill="currentColor" stroke="var(--color-background)" stroke-width=".8" />
+        </g>
+      </g>
+    </svg>
+  </button>
+  <div class="volume-panel" id="beyond-volume" hidden>
+    <label for="beyond-volume-slider">{isZh ? "音量" : "Volume"}</label>
+    <input id="beyond-volume-slider" type="range" min="0" max="1" step="0.01" value="0.5" />
+    <output for="beyond-volume-slider">50%</output>
+  </div>
+  <audio preload="none"></audio>
+</div>
+
+<style>
+  .record-player {
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+    margin-inline-start: 0.65rem;
+    color: var(--color-accent);
+    font: 0.75rem/1.4 var(--font-ui);
+    letter-spacing: normal;
+  }
+  .record-toggle {
+    display: grid;
+    place-items: center;
+    width: 52px;
+    height: 52px;
+    padding: 2px;
+    border: 0;
+    border-radius: 6px;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+    touch-action: manipulation;
+  }
+  .record-toggle:hover { background: var(--color-surface); }
+  .record-toggle:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+  .record-toggle:disabled { opacity: 0.4; cursor: default; }
+  svg { width: 48px; height: 48px; overflow: visible; }
+  .vinyl {
+    transform-origin: 0 0;
+    animation: record-spin 3s linear infinite paused;
+  }
+  .turntable {
+    transform-origin: 33px 59px;
+    animation: turntable-groove 0.8s ease-in-out infinite paused;
+  }
+  .record-player.is-playing .vinyl,
+  .record-player.is-playing .turntable { animation-play-state: running; }
+  .tonearm {
+    transform-origin: 55px 42px;
+    transform: rotate(32deg);
+    transition: transform 0.55s ease-in-out;
+  }
+  .record-player.is-playing .tonearm { transform: rotate(0deg); }
+  .volume-panel {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    width: 216px;
+    padding: 0.8rem;
+    border: 1px solid var(--color-rule);
+    border-radius: 8px;
+    background: var(--color-paper);
+    box-shadow: 0 5px 18px rgb(0 53 107 / 10%);
+    font-style: normal;
+  }
+  .volume-panel[hidden] { display: none; }
+  input { width: 100%; min-width: 0; accent-color: var(--color-accent); cursor: pointer; }
+  label, output { flex: 0 0 auto; }
+  output { min-width: 3ch; text-align: right; }
+  @keyframes record-spin { to { transform: rotate(360deg); } }
+  @keyframes turntable-groove {
+    0%, 50%, 100% { transform: translateY(0) rotate(0); }
+    25% { transform: translateY(-0.7px) rotate(-1deg); }
+    75% { transform: translateY(-0.4px) rotate(1deg); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .vinyl, .turntable { animation: none; }
+    .tonearm { transition: none; }
+    .record-player.is-playing .record-toggle { background: var(--color-surface); }
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>(".record-player").forEach((player) => {
+    const tracks: { src: string; title: string }[] = JSON.parse(player.dataset.tracks ?? "[]");
+    const button = player.querySelector<HTMLButtonElement>(".record-toggle")!;
+    const audio = player.querySelector<HTMLAudioElement>("audio")!;
+    const panel = player.querySelector<HTMLElement>(".volume-panel")!;
+    const slider = player.querySelector<HTMLInputElement>("input")!;
+    const output = player.querySelector<HTMLOutputElement>("output")!;
+    const isZh = player.dataset.lang === "zh";
+    let trackIndex = 0;
+    let pending = false;
+
+    const updateState = () => {
+      const playing = !audio.paused && !audio.ended;
+      player.classList.toggle("is-playing", playing);
+      button.setAttribute("aria-pressed", String(playing));
+      button.setAttribute("aria-label", isZh
+        ? `${playing ? "暂停" : "播放"}音乐；右键调整音量`
+        : `${playing ? "Pause" : "Play"} music; right-click to adjust volume`);
+    };
+    const setVolume = (value: number) => {
+      audio.volume = value;
+      slider.value = String(value);
+      output.value = `${Math.round(value * 100)}%`;
+    };
+    setVolume(0.5);
+    try {
+      const saved = localStorage.getItem("beyond-music-volume");
+      const value = saved === null ? NaN : Number(saved);
+      if (Number.isFinite(value) && value >= 0 && value <= 1) setVolume(value);
+    } catch { /* Playback also works when browser storage is unavailable. */ }
+
+    const play = async () => {
+      if (pending || !tracks.length) return;
+      pending = true;
+      if (!audio.getAttribute("src")) audio.src = tracks[trackIndex].src;
+      try {
+        await audio.play();
+        button.title = `${tracks[trackIndex].title} · ${isZh ? "点击暂停 · 右键调整音量" : "Click to pause · Right-click for volume"}`;
+      } catch {
+        button.title = isZh ? "播放失败，点击重试" : "Unable to play; click to retry";
+      } finally {
+        pending = false;
+        updateState();
+      }
+    };
+    button.addEventListener("click", () => {
+      if (audio.paused) void play();
+      else audio.pause();
+    });
+    audio.addEventListener("playing", updateState);
+    audio.addEventListener("pause", () => {
+      updateState();
+      button.title = `${tracks[trackIndex].title} · ${isZh ? "点击播放 · 右键调整音量" : "Click to play · Right-click for volume"}`;
+    });
+    audio.addEventListener("error", () => {
+      audio.pause();
+      updateState();
+      button.title = isZh ? "播放失败，点击重试" : "Unable to play; click to retry";
+    });
+    audio.addEventListener("ended", () => {
+      updateState();
+      trackIndex = (trackIndex + 1) % tracks.length;
+      audio.src = tracks[trackIndex].src;
+      void play();
+    });
+
+    const showVolume = (show: boolean) => {
+      panel.hidden = !show;
+      button.setAttribute("aria-expanded", String(show));
+      if (show) slider.focus();
+    };
+    button.addEventListener("contextmenu", (event) => {
+      event.preventDefault();
+      showVolume(panel.hidden);
+    });
+    button.addEventListener("keydown", (event) => {
+      if (event.key === "F10" && event.shiftKey) {
+        event.preventDefault();
+        showVolume(panel.hidden);
+      }
+    });
+    slider.addEventListener("input", () => {
+      setVolume(Number(slider.value));
+      try { localStorage.setItem("beyond-music-volume", slider.value); } catch { /* Optional preference. */ }
+    });
+    document.addEventListener("pointerdown", (event) => {
+      if (event.target instanceof Node && !player.contains(event.target)) showVolume(false);
+    });
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && !panel.hidden) {
+        showVolume(false);
+        button.focus();
+      }
+    });
+  });
+</script>

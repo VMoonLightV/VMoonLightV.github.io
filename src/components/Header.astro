@@ -1,4 +1,5 @@
 ---
+import RecordPlayer from "./RecordPlayer.astro";
 interface Props {
   lang?: "en" | "zh";
   languageHref?: string;
@@ -13,6 +14,7 @@ const {
 } = Astro.props;
 const isZh = lang === "zh";
 const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
+const isBeyond = /^\/(zh\/)?beyond(?:\/|$)/.test(currentPath);
 const switchHref = languageHref ?? (isArticle ? undefined : isZh ? currentPath.replace(/^\/zh/, "") || "/" : `/zh${currentPath === "/" ? "/" : `${currentPath}/`}`);
 const items = isZh
   ? [
@@ -35,11 +37,14 @@ const items = isZh
   <a class="site-mark" href={isZh ? "/zh/" : "/"} aria-label={isZh ? "返回封面" : "Back to cover"}>
     YL.
   </a>
-  {statement && (
-    <p class="header-statement" lang={statement.lang}>
-      {statement.lines.join(" ")}
-    </p>
-  )}
+  {statement && (isBeyond ? (
+    <div class="header-statement" lang={statement.lang}>
+      <span>{statement.lines.join(" ")}</span>
+      <RecordPlayer lang={lang} />
+    </div>
+  ) : (
+    <p class="header-statement" lang={statement.lang}>{statement.lines.join(" ")}</p>
+  ))}
   <nav aria-label={isZh ? "主要导航" : "Primary navigation"}>
     {items.map(([label, href]) => (
       <a href={href} aria-current={currentPath === href.slice(0, -1) ? "page" : currentPath.startsWith(href) ? "location" : undefined}>
