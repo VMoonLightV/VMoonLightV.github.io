@@ -17,35 +17,48 @@ const tracks = readdirSync(join(process.cwd(), "public/music"))
   <button
     class="record-toggle"
     type="button"
-    aria-label={isZh ? "播放音乐；右键调整音量" : "Play music; right-click to adjust volume"}
-    title={isZh ? "点击播放／暂停 · 右键调整音量" : "Click to play / pause · Right-click for volume"}
+    aria-label={isZh ? "播放音乐；右键调节音量或切换下一首" : "Play music; right-click for volume or next track"}
+    title={isZh ? "点击播放／暂停 · 右键打开音乐控制" : "Click to play / pause · Right-click for music controls"}
     aria-pressed="false"
     aria-controls="beyond-volume"
     aria-expanded="false"
     disabled={tracks.length === 0}
   >
-    <svg viewBox="0 0 72 72" fill="none" aria-hidden="true">
+    <svg viewBox="0 0 64 52" fill="none" aria-hidden="true">
       <g class="turntable">
-        <polygon points="9,49 16,42 60,42 54,49" fill="currentColor" fill-opacity=".2" />
-        <polygon points="9,51 56,51 53,59 9,59" fill="currentColor" />
-        <g transform="translate(31 46) scale(1 .22)">
-          <g class="vinyl">
-            <polygon points="-19,0 -16.45,-9.5 -9.5,-16.45 0,-19 9.5,-16.45 16.45,-9.5 19,0 16.45,9.5 9.5,16.45 0,19 -9.5,16.45 -16.45,9.5" fill="currentColor" />
-          </g>
+        <rect x="3" y="7" width="58" height="39" rx="6" fill="currentColor" />
+        <path d="M9 46v3m46-3v3" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+        <g class="vinyl">
+          <circle cx="26" cy="26" r="16" fill="var(--color-paper)" />
+          <circle cx="26" cy="26" r="13" fill="currentColor" />
+          <circle cx="26" cy="26" r="10" stroke="var(--color-paper)" stroke-opacity=".3" />
+          <circle cx="26" cy="26" r="7.5" stroke="var(--color-paper)" stroke-opacity=".3" />
+          <path d="M15 21a12 12 0 0 1 6-6m10 22a12 12 0 0 0 6-6" stroke="var(--color-paper)" stroke-opacity=".65" stroke-linecap="round" />
+          <circle cx="26" cy="26" r="4.5" fill="#c6a568" />
+          <circle cx="26" cy="26" r="1.2" fill="currentColor" />
         </g>
-        <polygon points="45,24 54,24 59,29 59,34 51,43 47,41 55,32 55,30 52,28 44,28" fill="currentColor" />
-        <polygon points="15,5 49,24 46,30 21,32" fill="currentColor" fill-opacity=".28" />
-        <polygon points="8,10 15,5 27,15 28,27 21,32 10,24" fill="currentColor" />
+        <circle cx="51" cy="15" r="3" fill="#c6a568" />
         <g class="tonearm">
-          <polygon points="54,41 56,41 56,44 41,48 41,50 39,50 39,47 54,43" fill="currentColor" stroke="var(--color-background)" stroke-width=".8" />
+          <path d="M51 15v12l-9 9" stroke="var(--color-paper)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+          <path d="m40 36 3 3" stroke="#c6a568" stroke-width="3" stroke-linecap="round" />
         </g>
+        <circle cx="53" cy="39" r="1.5" fill="var(--color-paper)" />
       </g>
     </svg>
   </button>
   <div class="volume-panel" id="beyond-volume" hidden>
-    <label for="beyond-volume-slider">{isZh ? "音量" : "Volume"}</label>
-    <input id="beyond-volume-slider" type="range" min="0" max="1" step="0.01" value="0.5" />
-    <output for="beyond-volume-slider">50%</output>
+    <label for="beyond-volume-slider" title={isZh ? "音量" : "Volume"}>
+      <svg class="control-icon" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M3 9h4l5-4v14l-5-4H3Z" fill="currentColor" />
+        <path d="M15 8c2 2 2 6 0 8m3-11c4 4 4 10 0 14" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" />
+      </svg>
+    </label>
+    <input id="beyond-volume-slider" type="range" min="0" max="1" step="0.01" value="0.5" aria-label={isZh ? "音量" : "Volume"} />
+    <button class="next-track" type="button" aria-label={isZh ? "下一首" : "Next track"} title={isZh ? "下一首" : "Next track"} disabled={tracks.length < 2}>
+      <svg class="control-icon" viewBox="0 0 24 24" aria-hidden="true">
+        <polygon points="7,4 20,12 7,20" fill="currentColor" />
+      </svg>
+    </button>
   </div>
   <audio preload="none"></audio>
 </div>
@@ -63,8 +76,8 @@ const tracks = readdirSync(join(process.cwd(), "public/music"))
   .record-toggle {
     display: grid;
     place-items: center;
-    width: 52px;
-    height: 52px;
+    width: 48px;
+    height: 44px;
     padding: 2px;
     border: 0;
     border-radius: 6px;
@@ -76,23 +89,24 @@ const tracks = readdirSync(join(process.cwd(), "public/music"))
   .record-toggle:hover { background: var(--color-surface); }
   .record-toggle:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
   .record-toggle:disabled { opacity: 0.4; cursor: default; }
-  svg { width: 48px; height: 48px; overflow: visible; }
+  .record-toggle svg { width: 44px; height: 36px; overflow: visible; }
+  .control-icon { display: block; width: 18px; height: 18px; }
   .vinyl {
-    transform-origin: 0 0;
+    transform-origin: 26px 26px;
     animation: record-spin 3s linear infinite paused;
   }
   .turntable {
-    transform-origin: 33px 59px;
+    transform-origin: 32px 46px;
     animation: turntable-groove 0.8s ease-in-out infinite paused;
   }
   .record-player.is-playing .vinyl,
   .record-player.is-playing .turntable { animation-play-state: running; }
   .tonearm {
-    transform-origin: 55px 42px;
-    transform: rotate(32deg);
+    transform-origin: 51px 15px;
+    transform: rotate(0deg);
     transition: transform 0.55s ease-in-out;
   }
-  .record-player.is-playing .tonearm { transform: rotate(0deg); }
+  .record-player.is-playing .tonearm { transform: rotate(20deg); }
   .volume-panel {
     position: absolute;
     top: calc(100% + 10px);
@@ -110,9 +124,27 @@ const tracks = readdirSync(join(process.cwd(), "public/music"))
     font-style: normal;
   }
   .volume-panel[hidden] { display: none; }
+  .next-track {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 28px;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    border: 1px solid var(--color-rule);
+    border-radius: 50%;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+  }
+  .next-track .control-icon { width: 16px; height: 16px; }
+  .next-track:hover { background: var(--color-surface); }
+  .next-track:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
+  .next-track:disabled { opacity: 0.4; cursor: default; }
   input { width: 100%; min-width: 0; accent-color: var(--color-accent); cursor: pointer; }
-  label, output { flex: 0 0 auto; }
-  output { min-width: 3ch; text-align: right; }
+  label { flex: 0 0 auto; }
   @keyframes record-spin { to { transform: rotate(360deg); } }
   @keyframes turntable-groove {
     0%, 50%, 100% { transform: translateY(0) rotate(0); }
@@ -133,7 +165,7 @@ const tracks = readdirSync(join(process.cwd(), "public/music"))
     const audio = player.querySelector<HTMLAudioElement>("audio")!;
     const panel = player.querySelector<HTMLElement>(".volume-panel")!;
     const slider = player.querySelector<HTMLInputElement>("input")!;
-    const output = player.querySelector<HTMLOutputElement>("output")!;
+    const nextButton = player.querySelector<HTMLButtonElement>(".next-track")!;
     const isZh = player.dataset.lang === "zh";
     let trackIndex = 0;
     let pending = false;
@@ -143,13 +175,12 @@ const tracks = readdirSync(join(process.cwd(), "public/music"))
       player.classList.toggle("is-playing", playing);
       button.setAttribute("aria-pressed", String(playing));
       button.setAttribute("aria-label", isZh
-        ? `${playing ? "暂停" : "播放"}音乐；右键调整音量`
-        : `${playing ? "Pause" : "Play"} music; right-click to adjust volume`);
+        ? `${playing ? "暂停" : "播放"}音乐；右键调节音量或切换下一首`
+        : `${playing ? "Pause" : "Play"} music; right-click for volume or next track`);
     };
     const setVolume = (value: number) => {
       audio.volume = value;
       slider.value = String(value);
-      output.value = `${Math.round(value * 100)}%`;
     };
     setVolume(0.5);
     try {
@@ -161,14 +192,16 @@ const tracks = readdirSync(join(process.cwd(), "public/music"))
     const play = async () => {
       if (pending || !tracks.length) return;
       pending = true;
+      nextButton.disabled = true;
       if (!audio.getAttribute("src")) audio.src = tracks[trackIndex].src;
       try {
         await audio.play();
-        button.title = `${tracks[trackIndex].title} · ${isZh ? "点击暂停 · 右键调整音量" : "Click to pause · Right-click for volume"}`;
+        button.title = `${tracks[trackIndex].title} · ${isZh ? "点击暂停 · 右键打开音乐控制" : "Click to pause · Right-click for music controls"}`;
       } catch {
         button.title = isZh ? "播放失败，点击重试" : "Unable to play; click to retry";
       } finally {
         pending = false;
+        nextButton.disabled = tracks.length < 2;
         updateState();
       }
     };
@@ -179,19 +212,23 @@ const tracks = readdirSync(join(process.cwd(), "public/music"))
     audio.addEventListener("playing", updateState);
     audio.addEventListener("pause", () => {
       updateState();
-      button.title = `${tracks[trackIndex].title} · ${isZh ? "点击播放 · 右键调整音量" : "Click to play · Right-click for volume"}`;
+      button.title = `${tracks[trackIndex].title} · ${isZh ? "点击播放 · 右键打开音乐控制" : "Click to play · Right-click for music controls"}`;
     });
     audio.addEventListener("error", () => {
       audio.pause();
       updateState();
       button.title = isZh ? "播放失败，点击重试" : "Unable to play; click to retry";
     });
-    audio.addEventListener("ended", () => {
-      updateState();
+    const advanceTrack = (resume: boolean) => {
+      if (pending || !tracks.length) return;
       trackIndex = (trackIndex + 1) % tracks.length;
       audio.src = tracks[trackIndex].src;
-      void play();
-    });
+      updateState();
+      if (resume) void play();
+      else button.title = `${tracks[trackIndex].title} · ${isZh ? "点击播放 · 右键打开音乐控制" : "Click to play · Right-click for music controls"}`;
+    };
+    nextButton.addEventListener("click", () => advanceTrack(!audio.paused));
+    audio.addEventListener("ended", () => advanceTrack(true));
 
     const showVolume = (show: boolean) => {
       panel.hidden = !show;
