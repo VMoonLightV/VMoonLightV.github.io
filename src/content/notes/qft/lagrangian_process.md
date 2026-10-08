@@ -2,6 +2,7 @@
 id: lagrangian_process
 title: Dynamics and Process
 date: 2026-10-08
+order: 2
 lang: en
 description: ""
 ---
