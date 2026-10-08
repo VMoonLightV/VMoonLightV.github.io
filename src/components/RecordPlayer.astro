@@ -10,7 +10,7 @@ const isZh = lang === "zh";
 const tracks = readdirSync(join(process.cwd(), "public/music"))
   .filter((name) => /\.(mp3|m4a|ogg|wav|aac|flac)$/i.test(name))
   .sort()
-  .map((name) => ({ src: `/music/${encodeURIComponent(name)}`, title: name.replace(/\.[^.]+$/, "") }));
+  .map((name) => ({ src: `/music/${encodeURIComponent(name)}` }));
 ---
 
 <div class="record-player" data-tracks={JSON.stringify(tracks)} data-lang={lang}>
@@ -18,7 +18,6 @@ const tracks = readdirSync(join(process.cwd(), "public/music"))
     class="record-toggle"
     type="button"
     aria-label={isZh ? "播放音乐；右键调节音量或切换下一首" : "Play music; right-click for volume or next track"}
-    title={isZh ? "点击播放／暂停 · 右键打开音乐控制" : "Click to play / pause · Right-click for music controls"}
     aria-pressed="false"
     aria-controls="beyond-volume"
     aria-expanded="false"
@@ -160,7 +159,7 @@ const tracks = readdirSync(join(process.cwd(), "public/music"))
 
 <script>
   document.querySelectorAll<HTMLElement>(".record-player").forEach((player) => {
-    const tracks: { src: string; title: string }[] = JSON.parse(player.dataset.tracks ?? "[]");
+    const tracks: { src: string }[] = JSON.parse(player.dataset.tracks ?? "[]");
     const button = player.querySelector<HTMLButtonElement>(".record-toggle")!;
     const audio = player.querySelector<HTMLAudioElement>("audio")!;
     const panel = player.querySelector<HTMLElement>(".volume-panel")!;
@@ -196,9 +195,8 @@ const tracks = readdirSync(join(process.cwd(), "public/music"))
       if (!audio.getAttribute("src")) audio.src = tracks[trackIndex].src;
       try {
         await audio.play();
-        button.title = `${tracks[trackIndex].title} · ${isZh ? "点击暂停 · 右键打开音乐控制" : "Click to pause · Right-click for music controls"}`;
       } catch {
-        button.title = isZh ? "播放失败，点击重试" : "Unable to play; click to retry";
+        // Failed playback stays paused so the next click can retry.
       } finally {
         pending = false;
         nextButton.disabled = tracks.length < 2;
@@ -210,14 +208,10 @@ const tracks = readdirSync(join(process.cwd(), "public/music"))
       else audio.pause();
     });
     audio.addEventListener("playing", updateState);
-    audio.addEventListener("pause", () => {
-      updateState();
-      button.title = `${tracks[trackIndex].title} · ${isZh ? "点击播放 · 右键打开音乐控制" : "Click to play · Right-click for music controls"}`;
-    });
+    audio.addEventListener("pause", updateState);
     audio.addEventListener("error", () => {
       audio.pause();
       updateState();
-      button.title = isZh ? "播放失败，点击重试" : "Unable to play; click to retry";
     });
     const advanceTrack = (resume: boolean) => {
       if (pending || !tracks.length) return;
@@ -225,7 +219,6 @@ const tracks = readdirSync(join(process.cwd(), "public/music"))
       audio.src = tracks[trackIndex].src;
       updateState();
       if (resume) void play();
-      else button.title = `${tracks[trackIndex].title} · ${isZh ? "点击播放 · 右键打开音乐控制" : "Click to play · Right-click for music controls"}`;
     };
     nextButton.addEventListener("click", () => advanceTrack(!audio.paused));
     audio.addEventListener("ended", () => advanceTrack(true));
