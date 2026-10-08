@@ -5,6 +5,7 @@ const articleSchema = z.object({
   id: z.string(),
   title: z.string(),
   date: z.coerce.date(),
+  order: z.number().int().optional(),
   lang: z.enum(["en", "zh"]),
   description: z.string().optional(),
   translation: z.string().optional(),
