@@ -230,12 +230,12 @@ const tracks = readdirSync(join(process.cwd(), "public/music"))
     };
     button.addEventListener("contextmenu", (event) => {
       event.preventDefault();
-      showVolume(panel.hidden);
+      showVolume(Boolean(panel.hidden));
     });
     button.addEventListener("keydown", (event) => {
       if (event.key === "F10" && event.shiftKey) {
         event.preventDefault();
-        showVolume(panel.hidden);
+        showVolume(Boolean(panel.hidden));
       }
     });
     slider.addEventListener("input", () => {
