@@ -1,6 +1,6 @@
 ---
 id: lagrangian_process
-title: Dynamics and Process
+title: Propagator, Interaction, and Scattering
 date: 2026-10-08
 order: 2
 lang: en
