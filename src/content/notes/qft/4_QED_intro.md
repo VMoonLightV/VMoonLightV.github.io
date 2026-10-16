@@ -40,4 +40,20 @@ e⁻ ───────────●─────────── e⁻
 μ⁻ ───────────●─────────── μ⁻
 ```
 
+Another example is the $e^+ e^- \to \mu^+ \mu^-$ process, where the annihilation of fermions produces the "virtual photon". We have $i\mathcal M= \left[\bar v(p_2)(ie\gamma^\mu)u(p_1)\right] \times\frac{-ig_{\mu\nu}}{s+i\epsilon} \times\left[\bar u(p_3)(ie\gamma^\nu)v(p_4)\right]$, and then using trace technologies under high-energy approximation $s\gg m_e^2,m_\mu^2$, we get $\overline{|\mathcal M|^2} =\frac{8e^4}{s^2} [ (p_1\cdot p_3)(p_2\cdot p_4) + (p_1\cdot p_4)(p_2\cdot p_3)] \to \overline{|\mathcal M|^2} =e^4(1+\cos^2\theta)$ in the rest frame. This further gives $\frac{d\sigma}{d\Omega} = \frac{\alpha^2}{4s}(1+\cos^2\theta)$ which can be observed in experiment, the QED angular distribution. 
+- Actually, it corresponds to the polarization of photons. But, what is the **virtual photon**? And for the polarized incoming electron and positron?
+
+All above, we construct our first QFT theory for electromagnetic interaction at tree level! We will further discuss the loop correction, which show the power of QFT prediction. As for decay, we will discuss them in electroweak theory later, like decay $\mu^- \to  \nu_{\mu} e^- \bar \nu_{e}$.
+
+
+Scalar QED and Yukawa Theory
+---
+
+In fact, the Dirac field can also interact with scalar field, which is called the Yukawa Theory and the scalar QED. Consider the free Lagrangian $\mathcal L_0=\frac12\partial_\mu\phi\partial^\mu\phi-\frac12M^2\phi^2 + \bar\psi(i\gamma^\mu\partial_\mu-m)\psi$, we can write the Lorentz-invariant Yukawa interaction term $\mathcal{L}_{Yuk} = -y \varphi \bar \psi \psi$ with the vertex factor $(-iy)$. Notice that the local $U(1)$ gauge transformation is satisfied here, it doesn't require the existence of Yukawa interaction like that in spinor QED. Furthermore, the variation on $\bar \psi$ will yield $(i \partial \!\!\!/ -m-y\phi)\psi=0$, where we can write $m_{eff}(x) = m + y\varphi(x)$ that the scalar field can influence the dynamics of Dirac field like endowing mass. This will be further discussed in the Higgs mechanism about the mass origin of elementary particles.
+
+Let's deal with the $\varphi \to \psi \psi$ decay process. We have $i\mathcal M_{s_1s_2} =-iy\,\bar u_{s_1}(p_1)v_{s_2}(p_2)$, and derive $\sum_{s}|\mathcal M|^2 = 2y^2(M^2-4m^2)$, then using $d\Gamma=\frac{1}{2M} \sum_{\mathrm{spins}}|\mathcal M|^2\,d\Phi_2$, we get the decay rate $\Gamma(\phi\to f\bar f) = \frac{y^2M}{8\pi} \left(1-\frac{4m^2}{M^2}\right)^{3/2}$, where you can notice that $m \to M/2$ will cause $\Gamma \to 0$ due to the reduction in momentum phase space and **the inhibition in p-wave** that. A real example is the Higgs decay to a pair of muons (the second-generation fermion) $H \to \mu^+ \mu^-$. After the breaking of electroweak symmetry, the interaction term can be written as $\mathcal L_{\mathrm{int}} =-\frac{m_\mu}{v}H\bar \psi_{\mu} \psi_{\mu}$, which gives $\Gamma(H\to\mu^+\mu^-) \simeq\frac{m_\mu^2m_H}{8\pi v^2}$, which is also called Branch Ratio.
+
+Another process is $\psi \psi \to \psi \psi$ with exchange of a scalar particle, where we have $i\mathcal M=  [\bar u_3(-iy)u_1] \times\frac{i}{k^2-M^2+i\epsilon} \times[\bar u_4(-iy)u_2] = -\frac{y^2}{k^2-M^2} (\bar u_3u_1)(\bar u_4u_2)$. In non-relativistic situation, we have $\bar u(p')u(p) \simeq2m\,\delta_{ss'},~ k^2 \simeq -|\mathbf{q}|^2$, which gives $\mathcal M_{\mathrm{NR}} \simeq \frac{4m^2y^2} {|\mathbf q|^2+M^2} \triangleq \mathcal M_{\mathrm{NR}} =-4m^2 \widetilde V(\mathbf q)$, then we can get  $V(r)= \int\frac{d^3q}{(2\pi)^3} e^{i\mathbf q\cdot\mathbf r} \widetilde V(\mathbf q) = -\frac{y^2}{4\pi r}e^{-Mr}$, which is the Yukawa potential that describes the exchange of massive scalar particle in short-distance interaction.
+
+More completely, now we can construct the scalar QED.
 
