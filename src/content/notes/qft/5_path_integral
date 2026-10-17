@@ -1,0 +1,12 @@
+---
+id: 5_path_integral
+title: Path Integrals
+date: 2026-10-17
+order: 5
+lang: en
+description: ""
+---
+
+Now we rewrite QFT in the language of Path Integral, and use it to derive Feynman Rules and later loop correction.
+
+

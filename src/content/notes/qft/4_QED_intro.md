@@ -1,7 +1,7 @@
 ---
 id: 4_QED_intro
 title: Introduction to Quantum Electrodynamics
-date: 2026-10-13
+date: 2026-10-17
 order: 4
 lang: en
 description: ""
